@@ -3,6 +3,7 @@
 Sistema automatizado para descargar masivamente los resultados del examen ICFES Saber 11 desde el portal oficial.
 
 **Repositorio**: Extracción, análisis y publicación de resultados ICFES
+**GitHub**: https://github.com/alvaretto/resultados-icfes
 
 ## ✅ Estado del Proyecto
 
@@ -84,24 +85,35 @@ Selecciona la opción `2` cuando se te pregunte.
 
 ```
 Resultados-ICFES-2025/
-├── venv/                                    # Entorno virtual de Python
-├── INSCRITOS_EXAMEN SABER 11 (36).xls      # Archivo Excel con los datos
+├── .git/                                   # Repositorio Git (sincronizado con GitHub)
+├── .gitignore                              # Archivos excluidos del repositorio
+├── venv/                                   # Entorno virtual de Python
+├── INSCRITOS_EXAMEN SABER 11 (36).xls      # Archivo Excel con los datos (no se sube a GitHub)
+│
 ├── descargar_resultados_icfes.py           # Script principal ⭐
 ├── verificar_pdfs_completos.py             # Script de verificación ⭐
+├── sincronizar_github.sh                   # Script de sincronización con GitHub ⭐
 ├── analizar_excel.py                       # Script de análisis del Excel
 ├── inspeccionar_con_firefox.py             # Script de inspección del sitio
 ├── inspeccionar_pagina_resultados.py       # Script de inspección de resultados
+│
 ├── README.md                               # Este archivo
 ├── INICIO_RAPIDO.txt                       # Guía rápida de inicio
+├── GITHUB_SYNC.md                          # Guía de sincronización con GitHub ⭐
 ├── NOTAS_TECNICAS.md                       # Notas técnicas del fix
 ├── SOLUCION_FINAL.md                       # Documentación de la solución
 ├── RESUMEN_FINAL_DESCARGA.md               # Resumen de la descarga exitosa ⭐
+├── CHANGELOG.md                            # Historial de cambios ⭐
+│
 ├── pdfs_descargados/                       # PDFs descargados (36 archivos) ✅
+│   ├── .gitkeep                            # (no se suben PDFs a GitHub por privacidad)
 │   ├── VELASQUEZ_GONZALEZ_ALEXANDER_1095208929.pdf
 │   ├── RIOS_URBANO_ANDRES_FELIPE_1111677398.pdf
 │   ├── ... (34 archivos más)
 │   └── ZAPATA_VARGAS_LAURA_CAMILA_1060506690.pdf
+│
 └── logs/                                   # Logs de ejecución
+    ├── .gitkeep                            # (no se suben logs a GitHub por privacidad)
     ├── exitosos_20251014_124233.txt        # 36 estudiantes exitosos ✅
     ├── errores_20251014_*.txt              # Errores (si los hay)
     └── sin_resultados_20251014_*.txt       # Sin resultados (si los hay)
@@ -230,6 +242,30 @@ Para **36 estudiantes**:
 - ✅ Respeta los términos de servicio con delays entre solicitudes
 - ✅ No realiza scraping agresivo
 
+## 🔄 Sincronización con GitHub
+
+Este proyecto está sincronizado con GitHub para respaldo y colaboración.
+
+### Sincronizar cambios:
+
+```bash
+# Opción 1: Script automático (recomendado)
+./sincronizar_github.sh "Descripción de los cambios"
+
+# Opción 2: Comandos manuales
+git add .
+git commit -m "Descripción de los cambios"
+git push origin main
+```
+
+### Ver el repositorio:
+🌐 https://github.com/alvaretto/resultados-icfes
+
+### Guía completa:
+📖 Ver `GITHUB_SYNC.md` para instrucciones detalladas
+
+---
+
 ## 📞 Soporte
 
 Si encuentras problemas:
@@ -240,6 +276,7 @@ Si encuentras problemas:
    - `NOTAS_TECNICAS.md` - Notas técnicas del fix de tipos de documento
    - `RESUMEN_FINAL_DESCARGA.md` - Resumen de la descarga exitosa
    - `INICIO_RAPIDO.txt` - Guía rápida de inicio
+   - `GITHUB_SYNC.md` - Guía de sincronización con GitHub
 3. Verifica que el portal del ICFES esté disponible: http://resultadossaber11.icfes.edu.co/
 4. Ejecuta el script de verificación: `python3 verificar_pdfs_completos.py`
 
