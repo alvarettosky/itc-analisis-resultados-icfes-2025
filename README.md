@@ -2,6 +2,8 @@
 
 Sistema automatizado para descargar masivamente los resultados del examen ICFES Saber 11 desde el portal oficial.
 
+**Repositorio**: Extracción, análisis y publicación de resultados ICFES
+
 ## ✅ Estado del Proyecto
 
 **🎉 PROYECTO COMPLETADO Y PROBADO**
@@ -340,4 +342,3 @@ Este script es para uso educativo y administrativo. Asegúrate de cumplir con lo
 
 **Última actualización**: 14 de octubre de 2025
 **Versión**: 2.0 (Completamente funcional y probado)
-
