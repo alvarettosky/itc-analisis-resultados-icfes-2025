@@ -41,12 +41,18 @@ pip list | grep -E "selenium|pandas|webdriver"
 
 ## 📖 Uso
 
+### 📑 Ver Índice Completo del Proyecto
+
+```bash
+cat 00-INDICE.md
+```
+
 ### Modo de Prueba (Recomendado para primera vez)
 
 Procesa solo 1 estudiante para verificar que todo funciona correctamente:
 
 ```bash
-python3 descargar_resultados_icfes.py
+python3 12-descargar_resultados_icfes.py
 ```
 
 Cuando se te pregunte, selecciona la opción `1` para modo de prueba.
@@ -56,7 +62,7 @@ Cuando se te pregunte, selecciona la opción `1` para modo de prueba.
 Para procesar todos los estudiantes:
 
 ```bash
-python3 descargar_resultados_icfes.py
+python3 12-descargar_resultados_icfes.py
 ```
 
 Selecciona la opción `2` cuando se te pregunte.
@@ -90,10 +96,11 @@ Resultados-ICFES-2025/
 ├── venv/                                   # Entorno virtual de Python
 ├── INSCRITOS_EXAMEN SABER 11 (36).xls      # Archivo Excel con los datos (no se sube a GitHub)
 │
-├── descargar_resultados_icfes.py           # Script principal ⭐
-├── verificar_pdfs_completos.py             # Script de verificación ⭐
-├── sincronizar_github.sh                   # Script de sincronización con GitHub ⭐
-├── analizar_excel.py                       # Script de análisis del Excel
+├── 00-INDICE.md                            # Índice del proyecto ⭐
+├── 12-descargar_resultados_icfes.py        # Script principal ⭐
+├── 13-verificar_pdfs_completos.py          # Script de verificación ⭐
+├── 18-sincronizar_github.sh                # Script de sincronización con GitHub ⭐
+├── 04-analizar_excel.py                    # Script de análisis del Excel
 ├── inspeccionar_con_firefox.py             # Script de inspección del sitio
 ├── inspeccionar_pagina_resultados.py       # Script de inspección de resultados
 │
@@ -134,7 +141,7 @@ Resultados-ICFES-2025/
 - ✅ Manejo robusto de errores con logs detallados
 - ✅ Modo de prueba (1 estudiante) y modo completo (todos)
 - ✅ Delays apropiados entre solicitudes (3 segundos)
-- ✅ Script de verificación de completitud (`verificar_pdfs_completos.py`)
+- ✅ Script de verificación de completitud (`13-verificar_pdfs_completos.py`)
 - ✅ Detección automática de login completado
 
 ### ⚠️ Limitaciones:
@@ -250,7 +257,7 @@ Este proyecto está sincronizado con GitHub para respaldo y colaboración.
 
 ```bash
 # Opción 1: Script automático (recomendado)
-./sincronizar_github.sh "Descripción de los cambios"
+./18-sincronizar_github.sh "Descripción de los cambios"
 
 # Opción 2: Comandos manuales
 git add .
@@ -262,7 +269,7 @@ git push origin main
 🌐 https://github.com/alvaretto/resultados-icfes
 
 ### Guía completa:
-📖 Ver `GITHUB_SYNC.md` para instrucciones detalladas
+📖 Ver `19-GITHUB_SYNC.md` para instrucciones detalladas
 
 ---
 
@@ -272,13 +279,14 @@ Si encuentras problemas:
 
 1. Revisa los logs en la carpeta `logs/`
 2. Consulta la documentación:
-   - `SOLUCION_FINAL.md` - Solución técnica completa
-   - `NOTAS_TECNICAS.md` - Notas técnicas del fix de tipos de documento
-   - `RESUMEN_FINAL_DESCARGA.md` - Resumen de la descarga exitosa
-   - `INICIO_RAPIDO.txt` - Guía rápida de inicio
-   - `GITHUB_SYNC.md` - Guía de sincronización con GitHub
+   - `00-INDICE.md` - Índice completo del proyecto
+   - `15-SOLUCION_FINAL.md` - Solución técnica completa
+   - `14-NOTAS_TECNICAS.md` - Notas técnicas del fix de tipos de documento
+   - `16-RESUMEN_FINAL_DESCARGA.md` - Resumen de la descarga exitosa
+   - `02-INICIO_RAPIDO.txt` - Guía rápida de inicio
+   - `19-GITHUB_SYNC.md` - Guía de sincronización con GitHub
 3. Verifica que el portal del ICFES esté disponible: http://resultadossaber11.icfes.edu.co/
-4. Ejecuta el script de verificación: `python3 verificar_pdfs_completos.py`
+4. Ejecuta el script de verificación: `python3 13-verificar_pdfs_completos.py`
 
 ## 📝 Notas Importantes
 
@@ -286,14 +294,14 @@ Si encuentras problemas:
 2. **Conexión estable**: Asegúrate de tener una conexión a Internet estable durante todo el proceso
 3. **No cerrar el navegador**: No cierres el navegador Firefox mientras el script está ejecutándose
 4. **Backup del Excel**: Haz una copia de seguridad del archivo Excel antes de comenzar
-5. **Verificación post-descarga**: Usa `verificar_pdfs_completos.py` para confirmar que todos los PDFs se descargaron
+5. **Verificación post-descarga**: Usa `13-verificar_pdfs_completos.py` para confirmar que todos los PDFs se descargaron
 
 ## ✅ Verificar PDFs Descargados
 
 Después de ejecutar el script, verifica que todos los PDFs se descargaron correctamente:
 
 ```bash
-python3 verificar_pdfs_completos.py
+python3 13-verificar_pdfs_completos.py
 ```
 
 Este script te mostrará:
@@ -317,7 +325,7 @@ Este script te mostrará:
 ### Detalles:
 - **31 estudiantes con TI** (Tarjeta de Identidad) ✅
 - **5 estudiantes con CC** (Cédula de Ciudadanía) ✅
-- **Todos los PDFs verificados** con `verificar_pdfs_completos.py` ✅
+- **Todos los PDFs verificados** con `13-verificar_pdfs_completos.py` ✅
 
 Ver detalles completos en: `RESUMEN_FINAL_DESCARGA.md`
 

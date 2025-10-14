@@ -18,33 +18,40 @@
     source venv/bin/activate
 
 
-2️⃣  VERIFICAR PDFs DESCARGADOS (Si ya ejecutaste el script)
+2️⃣  VER ÍNDICE DEL PROYECTO
 
-    python3 verificar_pdfs_completos.py
+    cat 00-INDICE.md
+
+    📑 Muestra todos los archivos organizados por orden del proceso
+
+
+3️⃣  VERIFICAR PDFs DESCARGADOS (Si ya ejecutaste el script)
+
+    python3 13-verificar_pdfs_completos.py
 
     ✅ Verifica que todos los estudiantes tengan su PDF
     📊 Muestra estadísticas de la descarga
 
 
-3️⃣  ANALIZAR EL ARCHIVO EXCEL (Opcional)
+4️⃣  ANALIZAR EL ARCHIVO EXCEL (Opcional)
 
-    python3 analizar_excel.py
+    python3 04-analizar_excel.py
 
     Esto te mostrará información sobre los estudiantes
 
 
-4️⃣  EJECUTAR EN MODO PRUEBA (Recomendado)
+5️⃣  EJECUTAR EN MODO PRUEBA (Recomendado)
 
-    python3 descargar_resultados_icfes.py
+    python3 12-descargar_resultados_icfes.py
 
     • Selecciona opción 1 (modo prueba)
     • Procesa solo 1 estudiante
     • Verifica que todo funciona correctamente
 
 
-5️⃣  EJECUTAR EN MODO COMPLETO
+6️⃣  EJECUTAR EN MODO COMPLETO
 
-    python3 descargar_resultados_icfes.py
+    python3 12-descargar_resultados_icfes.py
 
     • Selecciona opción 2 (modo completo)
     • Procesa todos los 36 estudiantes
@@ -52,13 +59,22 @@
     • Promedio: ~35 segundos por estudiante
 
 
-6️⃣  VERIFICAR DESCARGA COMPLETA
+7️⃣  VERIFICAR DESCARGA COMPLETA
 
-    python3 verificar_pdfs_completos.py
+    python3 13-verificar_pdfs_completos.py
 
     • Confirma que todos los PDFs se descargaron
     • Muestra estadísticas completas
     • Identifica estudiantes faltantes (si los hay)
+
+
+8️⃣  SINCRONIZAR CON GITHUB (Opcional)
+
+    ./18-sincronizar_github.sh "Descripción de los cambios"
+
+    • Sube cambios al repositorio de GitHub
+    • Mantiene respaldo en la nube
+    • Ver guía completa: cat 19-GITHUB_SYNC.md
 
 
 ═══════════════════════════════════════════════════════════════════════════
