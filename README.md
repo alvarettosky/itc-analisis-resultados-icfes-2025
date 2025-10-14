@@ -335,7 +335,37 @@ Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más det
 
 ---
 
+## 🚀 Fase 2: Extracción de Puntajes (En Desarrollo)
+
+### Objetivo
+Extraer automáticamente los puntajes de los resultados ICFES y generar un archivo Excel consolidado.
+
+### Estado Actual
+🔄 **En Desarrollo** (30% completado)
+
+### Scripts Creados
+- `explorar_estructura_pdf.py` - Análisis de estructura de PDFs ✅
+- `explorar_pdf_con_ocr.py` - Extracción con OCR ✅
+- `inspeccionar_html_resultados.py` - Inspección de HTML ✅
+- `21-extraer_puntajes_desde_web.py` - Extracción desde web 🔄
+
+### Próximos Pasos
+1. Analizar estructura HTML de la página de resultados
+2. Identificar selectores para puntajes individuales
+3. Completar script de extracción
+4. Generar archivo Excel consolidado: `RESULTADOS-ICFES-AULA-REGULAR.xlsx`
+
+Ver plan completo en: `FASE2-PLAN.md`
+
+---
+
 ## 📅 Historial de Versiones
+
+### Versión 2.1 (En Desarrollo)
+- 🔄 Fase 2: Extracción de puntajes desde web
+- 🔄 Generación de Excel consolidado
+- ✅ Instaladas librerías: pdfplumber, PyPDF2, pytesseract, pdf2image
+- ✅ Scripts de exploración y análisis creados
 
 ### Versión 2.0 (14 de octubre de 2025)
 - ✅ Sistema 100% funcional y probado en producción
@@ -352,6 +382,6 @@ Ver historial completo en: `17-CHANGELOG.md`
 
 **Desarrollado con ❤️ para facilitar la gestión educativa**
 
-**Última actualización**: 14 de octubre de 2025  
-**Versión**: 2.0 (Completamente funcional y probado)
+**Última actualización**: 14 de octubre de 2025
+**Versión**: 2.1 (Fase 2 en desarrollo)
 
