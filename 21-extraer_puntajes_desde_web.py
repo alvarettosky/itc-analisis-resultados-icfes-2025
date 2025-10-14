@@ -124,17 +124,17 @@ class ExtractorPuntajesICFES:
         print('\n✅ Continuando con la extracción de puntajes...')
         time.sleep(2)
         
-    def extraer_puntajes_de_pagina(self):
-        """Extrae los puntajes de la página de resultados"""
+    def extraer_puntaje_global(self):
+        """Extrae el puntaje global de la página principal"""
         try:
-            print('\n🔍 Extrayendo puntajes de la página...')
-            
+            print('\n🔍 Extrayendo puntaje global...')
+
             # Esperar a que la página esté cargada
             time.sleep(3)
-            
+
             # Obtener el HTML de la página
             html = self.driver.page_source
-            
+
             # Buscar el puntaje global (formato: XXX/500)
             puntaje_global = None
             match_global = re.search(r'(\d{1,3})/500', html)
@@ -142,37 +142,154 @@ class ExtractorPuntajesICFES:
                 puntaje_global = int(match_global.group(1))
                 print(f'   ✅ Puntaje Global: {puntaje_global}/500')
             else:
-                print('   ⚠️  Puntaje Global no encontrado')
-            
-            # Intentar extraer puntajes individuales
-            # Estos pueden estar en elementos específicos o en el texto
-            puntajes = {
-                'Puntaje Global': puntaje_global,
-                'Lectura Crítica': None,
-                'Matemáticas': None,
-                'Sociales y Ciudadanas': None,
-                'Ciencias Naturales': None,
-                'Inglés': None
-            }
-            
-            # Buscar elementos que contengan los puntajes
-            # Esto dependerá de la estructura HTML específica
+                print('   ⚠️  Puntaje Global no encontrado en HTML')
+                # Intentar buscar en el texto visible
+                try:
+                    body_text = self.driver.find_element(By.TAG_NAME, 'body').text
+                    match_text = re.search(r'(\d{1,3})/500', body_text)
+                    if match_text:
+                        puntaje_global = int(match_text.group(1))
+                        print(f'   ✅ Puntaje Global encontrado en texto: {puntaje_global}/500')
+                except:
+                    pass
+
+            return puntaje_global
+
+        except Exception as e:
+            print(f'   ❌ Error al extraer puntaje global: {e}')
+            return None
+
+    def extraer_puntaje_de_area(self, nombre_area):
+        """
+        Hace clic en un área específica y extrae su puntaje
+
+        Args:
+            nombre_area: Nombre del área (ej: "Lectura Crítica")
+
+        Returns:
+            int: Puntaje del área o None si no se pudo extraer
+        """
+        try:
+            print(f'\n   🔍 Extrayendo puntaje de: {nombre_area}')
+
+            # Guardar URL actual para volver
+            url_principal = self.driver.current_url
+
+            # Buscar el elemento clickeable del área
+            # Intentar varios selectores posibles
+            selectores = [
+                f"//a[contains(text(), '{nombre_area}')]",
+                f"//button[contains(text(), '{nombre_area}')]",
+                f"//div[contains(text(), '{nombre_area}')]",
+                f"//*[contains(text(), '{nombre_area}') and (self::a or self::button or self::div)]"
+            ]
+
+            elemento_clickeado = False
+            for selector in selectores:
+                try:
+                    wait = WebDriverWait(self.driver, 5)
+                    elemento = wait.until(EC.element_to_be_clickable((By.XPATH, selector)))
+
+                    if elemento.is_displayed():
+                        print(f'      ✅ Elemento encontrado, haciendo clic...')
+                        elemento.click()
+                        elemento_clickeado = True
+                        time.sleep(3)  # Esperar a que cargue la nueva vista
+                        break
+                except:
+                    continue
+
+            if not elemento_clickeado:
+                print(f'      ⚠️  No se pudo hacer clic en el área')
+                return None
+
+            # Buscar el puntaje en la nueva página
+            # El puntaje podría estar en diferentes formatos
+            html = self.driver.page_source
+            body_text = self.driver.find_element(By.TAG_NAME, 'body').text
+
+            # Patrones para buscar puntajes
+            patrones = [
+                r'Puntaje[:\s]+(\d{1,3})',
+                r'puntaje[:\s]+(\d{1,3})',
+                r'PUNTAJE[:\s]+(\d{1,3})',
+                r'Score[:\s]+(\d{1,3})',
+                r'(\d{1,3})\s*/\s*100',
+                r'Tu puntaje[:\s]+(\d{1,3})',
+            ]
+
+            puntaje = None
+            for patron in patrones:
+                match = re.search(patron, body_text, re.IGNORECASE)
+                if match:
+                    puntaje_candidato = int(match.group(1))
+                    # Validar que sea un puntaje razonable (0-100)
+                    if 0 <= puntaje_candidato <= 100:
+                        puntaje = puntaje_candidato
+                        print(f'      ✅ Puntaje encontrado: {puntaje}')
+                        break
+
+            if puntaje is None:
+                print(f'      ⚠️  No se encontró puntaje en la página del área')
+                # Guardar HTML para análisis
+                with open(f'debug_{nombre_area.replace(" ", "_")}.html', 'w', encoding='utf-8') as f:
+                    f.write(html)
+                print(f'      💾 HTML guardado para análisis: debug_{nombre_area.replace(" ", "_")}.html')
+
+            # Volver a la página principal
+            self.driver.back()
+            time.sleep(2)
+
+            return puntaje
+
+        except Exception as e:
+            print(f'      ❌ Error al extraer puntaje de {nombre_area}: {e}')
+            # Intentar volver a la página principal
             try:
-                # Intentar encontrar elementos con los puntajes
-                elementos = self.driver.find_elements(By.CSS_SELECTOR, '[class*="puntaje"], [class*="score"], [class*="resultado"]')
-                
-                for elemento in elementos:
-                    texto = elemento.text
-                    # Buscar números de 2-3 dígitos que podrían ser puntajes
-                    numeros = re.findall(r'\b(\d{2,3})\b', texto)
-                    if numeros:
-                        print(f'   📊 Elemento encontrado: {texto[:100]}')
-                
-            except Exception as e:
-                print(f'   ⚠️  No se pudieron extraer puntajes individuales: {e}')
-            
+                self.driver.back()
+                time.sleep(2)
+            except:
+                pass
+            return None
+
+    def extraer_puntajes_de_pagina(self):
+        """Extrae todos los puntajes de la página de resultados"""
+        try:
+            print('\n🔍 Extrayendo puntajes de la página...')
+
+            # Extraer puntaje global
+            puntaje_global = self.extraer_puntaje_global()
+
+            # Áreas a extraer
+            areas = {
+                'Lectura Crítica': 'Lectura Crítica',
+                'Matemáticas': 'Matemáticas',
+                'Sociales y Ciudadanas': 'Sociales y Ciudadanas',
+                'Ciencias Naturales': 'Ciencias Naturales',
+                'Inglés': 'Inglés'
+            }
+
+            puntajes = {
+                'Puntaje Global': puntaje_global
+            }
+
+            # Extraer puntaje de cada área
+            for nombre_area, clave in areas.items():
+                puntaje_area = self.extraer_puntaje_de_area(nombre_area)
+                puntajes[clave] = puntaje_area
+
+            # Mostrar resumen
+            print('\n📊 RESUMEN DE PUNTAJES EXTRAÍDOS:')
+            print('   ' + '-'*60)
+            for area, puntaje in puntajes.items():
+                if puntaje is not None:
+                    print(f'   ✅ {area}: {puntaje}')
+                else:
+                    print(f'   ❌ {area}: No extraído')
+            print('   ' + '-'*60)
+
             return puntajes
-            
+
         except Exception as e:
             print(f'   ❌ Error al extraer puntajes: {e}')
             return None
