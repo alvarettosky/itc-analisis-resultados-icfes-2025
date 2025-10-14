@@ -44,6 +44,9 @@ logs/*.txt
 INSCRITOS_EXAMEN*.xls
 INSCRITOS_EXAMEN*.xlsx
 
+# Archivos de lock de LibreOffice/OpenOffice
+.~lock.*
+
 # HTML temporal
 *.html
 pagina_*.html
