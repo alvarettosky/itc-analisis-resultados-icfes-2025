@@ -70,22 +70,37 @@ def cargar_datos():
     """Carga y preprocesa los datos del Excel"""
     try:
         df = pd.read_excel(ARCHIVO_EXCEL)
-        
-        # Limpiar datos
+
+        # ⚠️ CORRECCIÓN CRÍTICA: Filtrar solo las 36 filas de estudiantes reales
+        # Las últimas 4 filas (36-39) contienen estadísticas agregadas:
+        # - Fila 36: Vacía (separador)
+        # - Fila 37: Promedios 2025
+        # - Fila 38: Promedios 2024
+        # - Fila 39: Avance (diferencia 2025-2024)
+        # Estas filas NO deben incluirse en el análisis de estudiantes individuales
+
+        # Filtrar solo filas con Grupo no nulo (estudiantes reales)
+        df = df[df['Grupo'].notna()].copy()
+
+        # Validación: debe haber exactamente 36 estudiantes
+        if len(df) != 36:
+            st.warning(f"⚠️ Advertencia: Se esperaban 36 estudiantes, se encontraron {len(df)}")
+
+        # Limpiar datos adicionales
         df = df.dropna(subset=['Número de documento'])
-        
+
         # Crear nombre completo
         df['Nombre Completo'] = (
-            df['Primer Nombre'].fillna('') + ' ' + 
-            df['Segundo Nombre'].fillna('') + ' ' + 
-            df['Primer Apellido'].fillna('') + ' ' + 
+            df['Primer Nombre'].fillna('') + ' ' +
+            df['Segundo Nombre'].fillna('') + ' ' +
+            df['Primer Apellido'].fillna('') + ' ' +
             df['Segundo Apellido'].fillna('')
         ).str.strip().str.replace(r'\s+', ' ', regex=True)
-        
+
         # Convertir puntajes a numérico
         for area in AREAS + ['Puntaje Global']:
             df[area] = pd.to_numeric(df[area], errors='coerce')
-        
+
         return df
     except Exception as e:
         st.error(f"Error al cargar el archivo: {e}")
@@ -179,8 +194,17 @@ def main():
         - **Vista General**: Resumen y estadísticas
         - **Por Estudiante**: Análisis individual
         - **Por Área**: Análisis por materia
-        - **Comparativo**: Rankings y correlaciones
+        - **Rankings**: Rankings generales y por área
         - **Segmentación**: Clasificación por rangos
+        """)
+
+        st.markdown("---")
+        st.markdown("### ⚠️ Nota Metodológica")
+        st.info("""
+        Las áreas del ICFES tienen escalas diferentes.
+        Esta aplicación NO compara áreas entre sí,
+        siguiendo las recomendaciones metodológicas
+        del ICFES Colombia.
         """)
     
     # Tabs principales
@@ -188,23 +212,30 @@ def main():
         "📊 Vista General",
         "👤 Por Estudiante",
         "📚 Por Área",
-        "🏆 Comparativo",
+        "🏆 Rankings",
         "📈 Segmentación"
     ])
     
     # TAB 1: Vista General
     with tab1:
         st.header("📊 Resumen General de Resultados")
-        
-        col1, col2, col3, col4 = st.columns(4)
-        
+
+        # ⚠️ NOTA METODOLÓGICA IMPORTANTE
+        st.info("""
+        **📚 Importante:** Las áreas del ICFES Saber 11 utilizan escalas y criterios de evaluación diferentes.
+        Por esta razón, **NO se comparan promedios entre áreas diferentes** en esta aplicación.
+        Los análisis se realizan por área individual.
+        """)
+
+        col1, col2, col3 = st.columns(3)
+
         with col1:
             st.metric(
                 "Estudiantes Analizados",
                 len(df),
-                help="Total de estudiantes con resultados"
+                help="Total de estudiantes con resultados (36 estudiantes)"
             )
-        
+
         with col2:
             promedio_global = df['Puntaje Global'].mean()
             st.metric(
@@ -212,50 +243,35 @@ def main():
                 f"{promedio_global:.1f}",
                 help="Promedio del puntaje global (0-500)"
             )
-        
+
         with col3:
-            mejor_area = df[AREAS].mean().idxmax()
+            mediana_global = df['Puntaje Global'].median()
             st.metric(
-                "Área Más Fuerte",
-                mejor_area,
-                f"{df[mejor_area].mean():.1f}",
-                help="Área con mejor promedio"
+                "Mediana Global",
+                f"{mediana_global:.1f}",
+                help="Mediana del puntaje global (0-500)"
             )
-        
-        with col4:
-            peor_area = df[AREAS].mean().idxmin()
-            st.metric(
-                "Área a Mejorar",
-                peor_area,
-                f"{df[peor_area].mean():.1f}",
-                help="Área con menor promedio"
-            )
-        
+
         st.markdown("---")
-        
-        # Gráfico de promedios por área
+
+        # Estadísticas por área (sin comparaciones)
         col1, col2 = st.columns(2)
-        
+
         with col1:
-            st.subheader("📊 Promedios por Área de Conocimiento")
-            promedios = df[AREAS].mean().sort_values(ascending=True)
-            
-            fig = px.bar(
-                x=promedios.values,
-                y=promedios.index,
-                orientation='h',
-                labels={'x': 'Promedio', 'y': 'Área'},
-                color=promedios.values,
-                color_continuous_scale='Blues',
-                text=promedios.values.round(1)
-            )
-            fig.update_traces(textposition='outside')
-            fig.update_layout(
-                showlegend=False,
-                height=400,
-                xaxis_range=[0, 100]
-            )
-            st.plotly_chart(fig, use_container_width=True)
+            st.subheader("📊 Estadísticas por Área")
+            st.markdown("*Cada área se analiza de forma independiente*")
+
+            stats_data = []
+            for area in AREAS:
+                stats_data.append({
+                    'Área': area,
+                    'Promedio': f"{df[area].mean():.1f}",
+                    'Mediana': f"{df[area].median():.1f}",
+                    'Desv. Std': f"{df[area].std():.1f}"
+                })
+
+            stats_df = pd.DataFrame(stats_data)
+            st.dataframe(stats_df, use_container_width=True, hide_index=True)
         
         with col2:
             st.subheader("📈 Distribución del Puntaje Global")
@@ -276,25 +292,32 @@ def main():
             st.plotly_chart(fig, use_container_width=True)
         
         st.markdown("---")
-        
-        # Box plots de todas las áreas
-        st.subheader("📦 Distribución y Dispersión por Área")
-        
-        fig = go.Figure()
-        for area in AREAS:
-            fig.add_trace(go.Box(
-                y=df[area],
-                name=area,
-                marker_color=COLORES[area],
-                boxmean='sd'
-            ))
-        
-        fig.update_layout(
-            yaxis_title="Puntaje",
-            height=500,
-            showlegend=True
-        )
-        st.plotly_chart(fig, use_container_width=True)
+
+        # Información adicional
+        st.subheader("📋 Información del Grupo")
+
+        col1, col2, col3 = st.columns(3)
+
+        with col1:
+            st.metric(
+                "Puntaje Máximo",
+                f"{df['Puntaje Global'].max():.1f}",
+                help="Mejor puntaje global del grupo"
+            )
+
+        with col2:
+            st.metric(
+                "Puntaje Mínimo",
+                f"{df['Puntaje Global'].min():.1f}",
+                help="Menor puntaje global del grupo"
+            )
+
+        with col3:
+            st.metric(
+                "Rango",
+                f"{df['Puntaje Global'].max() - df['Puntaje Global'].min():.1f}",
+                help="Diferencia entre el máximo y mínimo"
+            )
     
     # TAB 2: Por Estudiante
     with tab2:
@@ -516,9 +539,25 @@ def main():
             bottom_10.index = bottom_10.index + 1
             st.dataframe(bottom_10, use_container_width=True)
 
-    # TAB 4: Comparativo
+    # TAB 4: Rankings y Estudiantes Destacados
     with tab4:
-        st.header("🏆 Análisis Comparativo y Rankings")
+        st.header("🏆 Rankings y Estudiantes Destacados")
+
+        # ⚠️ NOTA METODOLÓGICA IMPORTANTE
+        st.info("""
+        **📚 Nota Metodológica del ICFES:**
+
+        Las áreas evaluadas en el ICFES Saber 11 (Lectura Crítica, Matemáticas, Sociales, Ciencias, Inglés)
+        utilizan **escalas, ponderaciones y criterios de evaluación diferentes**. Por esta razón, **NO es
+        metodológicamente válido comparar puntajes entre áreas diferentes** (por ejemplo, comparar Matemáticas
+        vs Lectura Crítica).
+
+        Los análisis válidos son:
+        - ✅ Rankings de estudiantes por puntaje global
+        - ✅ Rankings por área individual
+        - ✅ Comparación de la MISMA área entre diferentes años
+        - ✅ Análisis de desempeño individual por área
+        """)
 
         # Ranking general
         st.subheader("🥇 Ranking General por Puntaje Global")
@@ -538,97 +577,29 @@ def main():
 
         st.markdown("---")
 
-        # Comparación entre áreas
-        st.subheader("📊 Comparación de Promedios entre Áreas")
+        # Rankings por área individual
+        st.subheader("📊 Rankings por Área Individual")
 
-        promedios_areas = df[AREAS].mean().sort_values(ascending=False)
-
-        fig = px.bar(
-            x=promedios_areas.index,
-            y=promedios_areas.values,
-            labels={'x': 'Área', 'y': 'Promedio'},
-            color=promedios_areas.values,
-            color_continuous_scale='RdYlGn',
-            text=promedios_areas.values.round(1)
+        area_ranking = st.selectbox(
+            "Selecciona un área para ver su ranking:",
+            AREAS,
+            key='area_ranking'
         )
-        fig.update_traces(textposition='outside')
-        fig.update_layout(
-            showlegend=False,
-            height=400,
-            yaxis_range=[0, 100]
-        )
-        st.plotly_chart(fig, use_container_width=True)
 
-        st.markdown("---")
-
-        # Matriz de correlación
-        st.subheader("🔗 Matriz de Correlación entre Áreas")
-
-        col1, col2 = st.columns([2, 1])
-
-        with col1:
-            correlacion = df[AREAS + ['Puntaje Global']].corr()
-
-            fig = px.imshow(
-                correlacion,
-                labels=dict(color="Correlación"),
-                x=correlacion.columns,
-                y=correlacion.columns,
-                color_continuous_scale='RdBu_r',
-                aspect="auto",
-                text_auto='.2f'
-            )
-            fig.update_layout(height=500)
-            st.plotly_chart(fig, use_container_width=True)
-
-        with col2:
-            st.markdown("### 📖 Interpretación")
-            st.markdown("""
-            **Valores de correlación:**
-            - **1.0**: Correlación perfecta positiva
-            - **0.7 - 0.9**: Correlación fuerte
-            - **0.4 - 0.7**: Correlación moderada
-            - **0.1 - 0.4**: Correlación débil
-            - **0.0**: Sin correlación
-            - **Negativo**: Correlación inversa
-
-            Una correlación alta entre dos áreas indica que los estudiantes que obtienen buenos puntajes en una tienden a obtener buenos puntajes en la otra.
-            """)
-
-        st.markdown("---")
-
-        # Scatter plots de correlaciones
-        st.subheader("📈 Análisis de Correlaciones entre Áreas")
+        df_area_ranking = df[['Nombre Completo', area_ranking]].copy()
+        df_area_ranking = df_area_ranking.sort_values(area_ranking, ascending=False).reset_index(drop=True)
+        df_area_ranking.index = df_area_ranking.index + 1
+        df_area_ranking.index.name = 'Posición'
 
         col1, col2 = st.columns(2)
 
         with col1:
-            area_x = st.selectbox("Selecciona área X:", AREAS, key='area_x')
+            st.markdown(f"### 🥇 Top 10 en {area_ranking}")
+            st.dataframe(df_area_ranking.head(10), use_container_width=True)
 
         with col2:
-            area_y = st.selectbox("Selecciona área Y:", AREAS, index=1, key='area_y')
-
-        if area_x != area_y:
-            fig = px.scatter(
-                df,
-                x=area_x,
-                y=area_y,
-                hover_data=['Nombre Completo'],
-                labels={area_x: area_x, area_y: area_y},
-                trendline="ols",
-                color_discrete_sequence=['#1f77b4']
-            )
-
-            # Calcular correlación
-            corr_value = df[[area_x, area_y]].corr().iloc[0, 1]
-
-            fig.update_layout(
-                title=f"Correlación: {corr_value:.3f}",
-                height=500
-            )
-            st.plotly_chart(fig, use_container_width=True)
-        else:
-            st.warning("Selecciona dos áreas diferentes para comparar.")
+            st.markdown(f"### 📉 Últimos 10 en {area_ranking}")
+            st.dataframe(df_area_ranking.tail(10), use_container_width=True)
 
         st.markdown("---")
 
@@ -691,32 +662,10 @@ def main():
 
         st.markdown("---")
 
-        # Análisis de consistencia
-        st.subheader("🎯 Análisis de Consistencia de Desempeño")
-
-        # Calcular desviación estándar de puntajes por estudiante
-        df['Desv_Puntajes'] = df[AREAS].std(axis=1)
-        df['Consistencia'] = df['Desv_Puntajes'].apply(
-            lambda x: 'Alta' if x < 5 else ('Media' if x < 10 else 'Baja')
-        )
-
-        col1, col2 = st.columns(2)
-
-        with col1:
-            st.markdown("### 📊 Estudiantes con Desempeño Consistente")
-            st.markdown("*Puntajes similares en todas las áreas (Desv. Std < 5)*")
-            consistentes = df[df['Consistencia'] == 'Alta'][['Nombre Completo', 'Puntaje Global', 'Desv_Puntajes']]
-            consistentes = consistentes.sort_values('Puntaje Global', ascending=False).reset_index(drop=True)
-            consistentes.index = consistentes.index + 1
-            st.dataframe(consistentes, use_container_width=True)
-
-        with col2:
-            st.markdown("### 📊 Estudiantes con Desempeño Dispar")
-            st.markdown("*Puntajes muy variables entre áreas (Desv. Std > 10)*")
-            dispares = df[df['Consistencia'] == 'Baja'][['Nombre Completo', 'Puntaje Global', 'Desv_Puntajes']]
-            dispares = dispares.sort_values('Desv_Puntajes', ascending=False).reset_index(drop=True)
-            dispares.index = dispares.index + 1
-            st.dataframe(dispares, use_container_width=True)
+        # ⚠️ SECCIÓN ELIMINADA: Análisis de Consistencia
+        # Esta sección calculaba la desviación estándar entre áreas diferentes,
+        # lo cual NO es metodológicamente válido según el ICFES, ya que cada área
+        # tiene escalas y criterios de evaluación diferentes.
 
         st.markdown("---")
 
@@ -724,7 +673,7 @@ def main():
         st.subheader("📋 Tabla Completa de Resultados")
 
         # Filtros
-        col1, col2, col3 = st.columns(3)
+        col1, col2 = st.columns(2)
 
         with col1:
             filtro_clasificacion = st.multiselect(
@@ -734,13 +683,6 @@ def main():
             )
 
         with col2:
-            filtro_consistencia = st.multiselect(
-                "Filtrar por consistencia:",
-                options=df['Consistencia'].unique(),
-                default=df['Consistencia'].unique()
-            )
-
-        with col3:
             rango_puntaje = st.slider(
                 "Rango de puntaje global:",
                 float(df['Puntaje Global'].min()),
@@ -751,7 +693,6 @@ def main():
         # Aplicar filtros
         df_filtrado = df[
             (df['Clasificación'].isin(filtro_clasificacion)) &
-            (df['Consistencia'].isin(filtro_consistencia)) &
             (df['Puntaje Global'] >= rango_puntaje[0]) &
             (df['Puntaje Global'] <= rango_puntaje[1])
         ]
@@ -759,7 +700,7 @@ def main():
         st.info(f"Mostrando {len(df_filtrado)} de {len(df)} estudiantes")
 
         # Mostrar tabla
-        columnas_mostrar = ['Nombre Completo', 'Puntaje Global'] + AREAS + ['Clasificación', 'Consistencia']
+        columnas_mostrar = ['Nombre Completo', 'Puntaje Global'] + AREAS + ['Clasificación']
         df_mostrar = df_filtrado[columnas_mostrar].sort_values('Puntaje Global', ascending=False).reset_index(drop=True)
         df_mostrar.index = df_mostrar.index + 1
 

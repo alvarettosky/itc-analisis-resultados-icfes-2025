@@ -4,14 +4,25 @@ Aplicación web interactiva desarrollada con **Streamlit** para visualización y
 
 ---
 
+## ⚠️ NOTA METODOLÓGICA IMPORTANTE
+
+Esta aplicación sigue las **recomendaciones metodológicas del ICFES Colombia**:
+
+- ✅ **Análisis válidos**: Cada área se analiza de forma independiente, ya que tienen escalas, ponderaciones y criterios de evaluación diferentes
+- ❌ **Análisis NO válidos**: NO se realizan comparaciones entre áreas diferentes (ej: Matemáticas vs Lectura Crítica)
+- ✅ **Comparaciones válidas**: Rankings por puntaje global, análisis por área individual, comparaciones temporales de la misma área
+
+**Fuente**: Guía de Interpretación de Resultados ICFES Saber 11 - ICFES Colombia
+
+---
+
 ## 🎯 Características Principales
 
 ### 1. **Vista General**
-- Resumen estadístico completo
-- Promedios por área de conocimiento
+- Resumen estadístico completo (36 estudiantes)
+- Estadísticas por área individual (sin comparaciones entre áreas)
 - Distribución del puntaje global
-- Box plots de dispersión por área
-- Identificación de áreas fuertes y débiles
+- Métricas generales del grupo
 
 ### 2. **Análisis por Estudiante**
 - Búsqueda por nombre o documento
@@ -27,17 +38,15 @@ Aplicación web interactiva desarrollada con **Streamlit** para visualización y
 - Percentiles (25, 50, 75)
 - Top 10 y estudiantes que requieren apoyo por área
 
-### 4. **Análisis Comparativo**
+### 4. **Rankings**
 - Ranking general por puntaje global
-- Comparación de promedios entre áreas
-- Matriz de correlación entre áreas
-- Scatter plots de correlaciones
+- Rankings individuales por cada área
+- Top 10 y Bottom 10 por área
 - Identificación de estudiantes destacados (Top 10%)
 
 ### 5. **Segmentación**
 - Clasificación por rangos de puntaje (Bajo, Medio, Alto, Superior)
 - Estudiantes que requieren apoyo (Bottom 20%)
-- Análisis de consistencia de desempeño
 - Tabla completa con filtros dinámicos
 - Exportación de datos filtrados a CSV
 
@@ -112,6 +121,12 @@ El archivo debe contener las siguientes columnas:
 | Inglés | Número | Puntaje en Inglés (0-100) |
 | Puntaje Global | Número | Puntaje global (0-500) |
 
+### ⚠️ Importante sobre la estructura del archivo
+
+La aplicación **filtra automáticamente** las filas de estudiantes reales (36 estudiantes) y **excluye** las filas de estadísticas agregadas que puedan estar al final del archivo (promedios, comparaciones con años anteriores, etc.).
+
+El filtrado se realiza identificando filas con el campo "Grupo" no nulo.
+
 ---
 
 ## 🎨 Funcionalidades Interactivas
@@ -123,13 +138,12 @@ El archivo debe contener las siguientes columnas:
 - Slider de rango de puntajes
 
 ### Visualizaciones
-- **Gráficos de barras**: Comparación de promedios
-- **Histogramas**: Distribución de puntajes
-- **Box plots**: Análisis de dispersión y outliers
-- **Scatter plots**: Correlaciones entre áreas
-- **Heatmap**: Matriz de correlación
+- **Gráficos de barras**: Estadísticas por área individual
+- **Histogramas**: Distribución de puntajes por área
+- **Box plots**: Análisis de dispersión y outliers por área
 - **Radar charts**: Perfiles individuales de competencias
 - **Gráficos de torta**: Distribución por clasificación
+- **Tablas interactivas**: Rankings y datos detallados
 
 ### Exportación
 - Descarga de datos filtrados en formato CSV
@@ -153,10 +167,8 @@ El archivo debe contener las siguientes columnas:
 - **Alto**: 301-400 puntos
 - **Superior**: 401-500 puntos
 
-### Análisis de Consistencia
-- **Alta**: Desviación estándar < 5 (puntajes similares en todas las áreas)
-- **Media**: Desviación estándar 5-10
-- **Baja**: Desviación estándar > 10 (puntajes muy variables)
+### ⚠️ Nota sobre Análisis de Consistencia
+El análisis de "consistencia" (comparar desviación estándar entre áreas) **ha sido eliminado** de esta versión, ya que no es metodológicamente válido comparar puntajes entre áreas con escalas diferentes según las recomendaciones del ICFES.
 
 ---
 
