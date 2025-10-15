@@ -44,8 +44,9 @@ logs/*.txt
 INSCRITOS_EXAMEN*.xls
 INSCRITOS_EXAMEN*.xlsx
 
-# EXCEPCIÓN: Permitir archivo de ejemplo (datos ficticios)
+# EXCEPCIONES: Permitir archivos específicos
 !RESULTADOS-ICFES-EJEMPLO.xlsx
+!ITC-RESULTADOS-ICFES-2025-ADAPTADO.xlsx
 
 # Archivos de lock de LibreOffice/OpenOffice
 .~lock.*

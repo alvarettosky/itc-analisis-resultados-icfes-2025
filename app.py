@@ -56,10 +56,16 @@ COLORES = {
 # Determinar qué archivo usar
 def obtener_archivo_datos():
     """Determina qué archivo de datos usar (real o ejemplo)"""
+    # Prioridad 1: Archivo ITC adaptado (datos reales)
+    archivo_itc = 'ITC-RESULTADOS-ICFES-2025-ADAPTADO.xlsx'
+    # Prioridad 2: Archivo original
     archivo_real = 'RESULTADOS-ICFES-AULA-REGULAR-2025.xlsx'
+    # Prioridad 3: Archivo de ejemplo
     archivo_ejemplo = 'RESULTADOS-ICFES-EJEMPLO.xlsx'
-    
-    if os.path.exists(archivo_real):
+
+    if os.path.exists(archivo_itc):
+        return archivo_itc, False  # False = no es ejemplo (datos reales ITC)
+    elif os.path.exists(archivo_real):
         return archivo_real, False  # False = no es ejemplo
     elif os.path.exists(archivo_ejemplo):
         return archivo_ejemplo, True  # True = es ejemplo

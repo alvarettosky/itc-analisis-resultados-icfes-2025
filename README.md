@@ -51,10 +51,25 @@ Aplicación web interactiva desarrollada con **Streamlit** para visualización y
 
 ### 🔐 Seguridad y Privacidad
 
-- ✅ **Datos sensibles protegidos** con `.gitignore`
-- ✅ **Archivos Excel con datos reales NO se suben** a GitHub
-- ✅ **Aplicación usa datos de ejemplo** para demostración pública
-- ✅ **Ejecución local** para análisis con datos reales
+- ⚠️ **IMPORTANTE**: Este repositorio contiene datos reales de 43 estudiantes del ITC
+- ⚠️ **Datos públicos**: El archivo `ITC-RESULTADOS-ICFES-2025-ADAPTADO.xlsx` está en el repositorio público
+- ✅ **Otros datos protegidos** con `.gitignore`
+- ✅ **Aplicación usa datos reales ITC** en producción
+- ✅ **Fallback a datos de ejemplo** si no encuentra datos reales
+
+### 📊 Archivos de Datos
+
+La aplicación busca archivos en este orden de prioridad:
+
+1. **`ITC-RESULTADOS-ICFES-2025-ADAPTADO.xlsx`** (43 estudiantes reales del ITC)
+   - ⚠️ Incluido en el repositorio público
+   - Contiene nombres completos y puntajes reales
+
+2. **`RESULTADOS-ICFES-AULA-REGULAR-2025.xlsx`** (otros datos reales)
+   - Solo disponible localmente (protegido por `.gitignore`)
+
+3. **`RESULTADOS-ICFES-EJEMPLO.xlsx`** (datos ficticios)
+   - Incluido en el repositorio para pruebas
 
 ---
 
@@ -168,8 +183,9 @@ itc-analisis-resultados-icfes-2025/
 ├── .streamlit/                           ⚙️ Configuración de Streamlit
 │   └── config.toml
 │
-├── RESULTADOS-ICFES-EJEMPLO.xlsx        📊 Datos de ejemplo
-├── RESULTADOS-ICFES-AULA-REGULAR-2025.xlsx  📊 Datos reales (no en Git)
+├── ITC-RESULTADOS-ICFES-2025-ADAPTADO.xlsx  📊 Datos reales ITC (43 estudiantes)
+├── RESULTADOS-ICFES-EJEMPLO.xlsx        📊 Datos de ejemplo (ficticios)
+├── RESULTADOS-ICFES-AULA-REGULAR-2025.xlsx  📊 Otros datos reales (no en Git)
 │
 ├── README.md                             📚 Este archivo
 ├── README-WEBAPP.md                      📚 Documentación de la webapp
@@ -216,10 +232,11 @@ Para más detalles, consulta `INSTRUCCIONES-STREAMLIT-CLOUD.md`
 
 ### Privacidad y Seguridad
 
-1. **Datos sensibles**: Los archivos Excel con datos reales NO se suben a GitHub
-2. **Modo demostración**: La aplicación pública usa datos de ejemplo ficticios
-3. **Uso local**: Para analizar datos reales, ejecuta la aplicación localmente
-4. **Archivos protegidos**: `.gitignore` protege archivos sensibles
+1. **Datos ITC públicos**: El archivo `ITC-RESULTADOS-ICFES-2025-ADAPTADO.xlsx` con 43 estudiantes reales está en el repositorio público
+2. **Otros datos protegidos**: Otros archivos Excel con datos sensibles NO se suben a GitHub
+3. **Aplicación en producción**: Usa los datos reales del ITC (43 estudiantes)
+4. **Uso local**: Para analizar otros datos reales, ejecuta la aplicación localmente
+5. **Archivos protegidos**: `.gitignore` protege otros archivos sensibles
 
 ### Uso de la Aplicación
 
