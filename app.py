@@ -83,13 +83,9 @@ def cargar_datos():
     try:
         df = pd.read_excel(archivo)
         
-        # Filtrar solo las 36 filas de estudiantes reales
+        # Filtrar solo las filas de estudiantes reales (con grupo asignado)
         df = df[df['Grupo'].notna()].copy()
-        
-        # Validación
-        if len(df) != 36:
-            st.warning(f"⚠️ Advertencia: Se esperaban 36 estudiantes, se encontraron {len(df)}")
-        
+
         # Crear nombre completo
         df['Nombre Completo'] = (
             df['Primer Nombre'].fillna('') + ' ' +
@@ -191,7 +187,7 @@ def main():
             st.metric(
                 "Estudiantes Analizados",
                 len(df),
-                help="Total de estudiantes con resultados (36 estudiantes)"
+                help="Total de estudiantes con resultados ICFES Saber 11"
             )
         
         with col2:
