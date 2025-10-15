@@ -194,15 +194,15 @@ def main():
             promedio_global = df['Puntaje Global'].mean()
             st.metric(
                 "Promedio Global",
-                f"{promedio_global:.1f}",
+                f"{promedio_global:.0f}",
                 help="Promedio del puntaje global (0-500)"
             )
-        
+
         with col3:
             mediana_global = df['Puntaje Global'].median()
             st.metric(
                 "Mediana Global",
-                f"{mediana_global:.1f}",
+                f"{mediana_global:.0f}",
                 help="Mediana del puntaje global (0-500)"
             )
         
@@ -219,9 +219,9 @@ def main():
             for area in AREAS:
                 stats_data.append({
                     'Área': area,
-                    'Promedio': f"{df[area].mean():.1f}",
-                    'Mediana': f"{df[area].median():.1f}",
-                    'Desv. Std': f"{df[area].std():.1f}"
+                    'Promedio': f"{df[area].mean():.0f}",
+                    'Mediana': f"{df[area].median():.0f}",
+                    'Desv. Std': f"{df[area].std():.0f}"
                 })
             
             stats_df = pd.DataFrame(stats_data)
@@ -240,7 +240,7 @@ def main():
                 x=df['Puntaje Global'].mean(),
                 line_dash="dash",
                 line_color="red",
-                annotation_text=f"Promedio: {df['Puntaje Global'].mean():.1f}"
+                annotation_text=f"Promedio: {df['Puntaje Global'].mean():.0f}"
             )
             fig.update_layout(height=400)
             st.plotly_chart(fig, use_container_width=True)
@@ -255,21 +255,21 @@ def main():
         with col1:
             st.metric(
                 "Puntaje Máximo",
-                f"{df['Puntaje Global'].max():.1f}",
+                f"{df['Puntaje Global'].max():.0f}",
                 help="Mejor puntaje global del grupo"
             )
-        
+
         with col2:
             st.metric(
                 "Puntaje Mínimo",
-                f"{df['Puntaje Global'].min():.1f}",
+                f"{df['Puntaje Global'].min():.0f}",
                 help="Menor puntaje global del grupo"
             )
-        
+
         with col3:
             st.metric(
                 "Rango",
-                f"{df['Puntaje Global'].max() - df['Puntaje Global'].min():.1f}",
+                f"{df['Puntaje Global'].max() - df['Puntaje Global'].min():.0f}",
                 help="Diferencia entre el máximo y mínimo"
             )
     

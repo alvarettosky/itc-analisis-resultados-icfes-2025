@@ -268,7 +268,7 @@ def main():
                     'Área': area,
                     'Promedio': f"{int(round(df[area].mean()))}",
                     'Mediana': f"{int(round(df[area].median()))}",
-                    'Desv. Std': f"{df[area].std():.1f}"
+                    'Desv. Std': f"{df[area].std():.0f}"
                 })
 
             stats_df = pd.DataFrame(stats_data)
@@ -386,7 +386,7 @@ def main():
                     ranking = (df['Puntaje Global'] > puntaje_global).sum() + 1
                     st.metric("Ranking General", f"{ranking}° de {len(df)}")
                     percentil = ((len(df) - ranking + 1) / len(df)) * 100
-                    st.write(f"**Percentil:** {percentil:.1f}%")
+                    st.write(f"**Percentil:** {percentil:.0f}%")
                 
                 st.markdown("---")
                 
@@ -440,7 +440,7 @@ def main():
         with col2:
             st.metric("Mediana", f"{int(round(stats_area['Mediana']))}")
         with col3:
-            st.metric("Desv. Estándar", f"{stats_area['Desv. Estándar']:.2f}")
+            st.metric("Desv. Estándar", f"{stats_area['Desv. Estándar']:.0f}")
         with col4:
             st.metric("Mínimo", f"{int(round(stats_area['Mínimo']))}")
         with col5:
@@ -504,9 +504,9 @@ def main():
             percentiles_df = pd.DataFrame({
                 'Percentil': ['25%', '50%', '75%'],
                 'Puntaje': [
-                    f"{stats_area['Percentil 25']:.2f}",
-                    f"{stats_area['Percentil 50']:.2f}",
-                    f"{stats_area['Percentil 75']:.2f}"
+                    f"{stats_area['Percentil 25']:.0f}",
+                    f"{stats_area['Percentil 50']:.0f}",
+                    f"{stats_area['Percentil 75']:.0f}"
                 ]
             })
             st.dataframe(percentiles_df, use_container_width=True, hide_index=True)
@@ -516,9 +516,9 @@ def main():
             metricas_df = pd.DataFrame({
                 'Métrica': ['Rango', 'Coef. Variación', 'Moda'],
                 'Valor': [
-                    f"{stats_area['Rango']:.2f}",
-                    f"{stats_area['Coef. Variación']:.2f}%",
-                    f"{stats_area['Moda']:.2f}" if stats_area['Moda'] is not None else 'N/A'
+                    f"{stats_area['Rango']:.0f}",
+                    f"{stats_area['Coef. Variación']:.0f}%",
+                    f"{stats_area['Moda']:.0f}" if stats_area['Moda'] is not None else 'N/A'
                 ]
             })
             st.dataframe(metricas_df, use_container_width=True, hide_index=True)
@@ -886,7 +886,7 @@ def main():
             df_tabla['2024'] = df_tabla['2024'].apply(lambda x: f"{int(round(x))}")
             df_tabla['2025'] = df_tabla['2025'].apply(lambda x: f"{int(round(x))}")
             df_tabla['Avance'] = df_tabla['Avance'].apply(lambda x: f"{int(round(x)):+d}")
-            df_tabla['Avance %'] = df_tabla['Avance %'].apply(lambda x: f"{x:+.2f}%")
+            df_tabla['Avance %'] = df_tabla['Avance %'].apply(lambda x: f"{x:+.0f}%")
 
             st.dataframe(df_tabla, use_container_width=True, hide_index=True)
 
@@ -903,7 +903,7 @@ def main():
 
                 if areas_mejora['Avance'].iloc[0] > 0:
                     for idx, row in areas_mejora.iterrows():
-                        st.success(f"**{row['Área']}**: {int(round(row['Avance'])):+d} puntos ({row['Avance %']:+.2f}%)")
+                        st.success(f"**{row['Área']}**: {int(round(row['Avance'])):+d} puntos ({row['Avance %']:+.0f}%)")
                 else:
                     st.warning("No hay áreas con avance positivo")
 
@@ -913,9 +913,9 @@ def main():
 
                 for idx, row in areas_atencion.iterrows():
                     if row['Avance'] < 0:
-                        st.error(f"**{row['Área']}**: {int(round(row['Avance'])):+d} puntos ({row['Avance %']:+.2f}%)")
+                        st.error(f"**{row['Área']}**: {int(round(row['Avance'])):+d} puntos ({row['Avance %']:+.0f}%)")
                     else:
-                        st.info(f"**{row['Área']}**: {int(round(row['Avance'])):+d} puntos ({row['Avance %']:+.2f}%)")
+                        st.info(f"**{row['Área']}**: {int(round(row['Avance'])):+d} puntos ({row['Avance %']:+.0f}%)")
 
             st.markdown("---")
 
