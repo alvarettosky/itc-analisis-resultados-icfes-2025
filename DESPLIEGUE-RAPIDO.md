@@ -23,8 +23,8 @@ Tu aplicación contiene **datos reales de estudiantes**. Antes de hacer push a G
 ## 🚀 PASO 2: Push a GitHub
 
 ```bash
-# Desde tu terminal:
-cd /home/proyectos/Escritorio/Resultados-ICFES-2025
+# Desde tu terminal (ajusta la ruta según tu ubicación):
+cd /media/disco1tb/ITC-Resultados-ICFES-2025
 
 # Push de los commits pendientes
 git push origin main

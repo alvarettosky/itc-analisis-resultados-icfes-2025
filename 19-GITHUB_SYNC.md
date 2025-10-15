@@ -2,8 +2,8 @@
 
 ## 📍 Información del Repositorio
 
-- **URL**: https://github.com/alvaretto/resultados-icfes
-- **Usuario**: alvaretto
+- **URL**: https://github.com/alvarettosky/itc-analisis-resultados-icfes-2025
+- **Usuario**: alvarettosky
 - **Rama principal**: main
 - **Estado**: ✅ Configurado y sincronizado
 
@@ -162,7 +162,7 @@ El archivo `.gitignore` está configurado para **NO subir** los siguientes archi
 
 Abre en tu navegador:
 ```
-https://github.com/alvaretto/resultados-icfes
+https://github.com/alvarettosky/itc-analisis-resultados-icfes-2025
 ```
 
 ---
@@ -177,7 +177,7 @@ https://github.com/alvaretto/resultados-icfes
 
 ### Estado Actual
 - **Rama**: main
-- **Remote**: origin (https://github.com/alvaretto/resultados-icfes.git)
+- **Remote**: origin (https://github.com/alvarettosky/itc-analisis-resultados-icfes-2025.git)
 - **Tracking**: Configurado automáticamente
 
 ---
@@ -238,7 +238,7 @@ git config --global user.email "tu@email.com"
 
 **Solución**:
 ```bash
-cd /home/proyectos/Escritorio/Resultados-ICFES-2025
+cd /media/disco1tb/ITC-Resultados-ICFES-2025
 ```
 
 ---
@@ -275,8 +275,8 @@ git log -1
 
 **Salida esperada**:
 ```
-origin  https://github.com/alvaretto/resultados-icfes.git (fetch)
-origin  https://github.com/alvaretto/resultados-icfes.git (push)
+origin  https://github.com/alvarettosky/itc-analisis-resultados-icfes-2025.git (fetch)
+origin  https://github.com/alvarettosky/itc-analisis-resultados-icfes-2025.git (push)
 
 * main
 
@@ -302,12 +302,12 @@ git pull origin main
 git log --oneline
 
 # Ver repositorio en GitHub
-xdg-open https://github.com/alvaretto/resultados-icfes
+xdg-open https://github.com/alvarettosky/itc-analisis-resultados-icfes-2025
 ```
 
 ---
 
-**Configurado el**: 14 de octubre de 2025  
-**Repositorio**: https://github.com/alvaretto/resultados-icfes  
+**Configurado el**: 14 de octubre de 2025
+**Repositorio**: https://github.com/alvarettosky/itc-analisis-resultados-icfes-2025
 **Estado**: ✅ Completamente configurado y funcional
 

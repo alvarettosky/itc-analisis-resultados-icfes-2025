@@ -70,9 +70,13 @@ pip install -r requirements-webapp.txt
 
 ### Paso 2: Verificar el Archivo de Datos
 
-Asegúrate de que el archivo Excel esté en la ubicación correcta:
+Asegúrate de que el archivo Excel esté en el directorio del proyecto:
 ```
-/home/proyectos/Escritorio/Resultados-ICFES-2025/RESULTADOS-ICFES-AULA-REGULAR-2025.xlsx
+RESULTADOS-ICFES-AULA-REGULAR-2025.xlsx
+```
+O usa el archivo de ejemplo:
+```
+RESULTADOS-ICFES-EJEMPLO.xlsx
 ```
 
 ### Paso 3: Ejecutar la Aplicación

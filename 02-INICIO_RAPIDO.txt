@@ -13,8 +13,8 @@
 📋 PASOS PARA COMENZAR:
 
 1️⃣  ACTIVAR EL ENTORNO VIRTUAL
-    
-    cd /home/proyectos/Escritorio/Resultados-ICFES-2025
+
+    cd /media/disco1tb/ITC-Resultados-ICFES-2025
     source venv/bin/activate
 
 

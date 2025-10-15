@@ -1,53 +1,60 @@
-# 🎓 Descargador Automático de Resultados ICFES Saber 11
+# 📊 Análisis de Resultados ICFES Saber 11 - 2025
 
-[![Estado](https://img.shields.io/badge/Estado-Funcional%20100%25-success)](https://github.com/alvaretto/resultados-icfes)
-[![Python](https://img.shields.io/badge/Python-3.7%2B-blue)](https://www.python.org/)
-[![Selenium](https://img.shields.io/badge/Selenium-4.x-green)](https://www.selenium.dev/)
+[![Estado](https://img.shields.io/badge/Estado-Activo-success)](https://github.com/alvarettosky/itc-analisis-resultados-icfes-2025)
+[![Python](https://img.shields.io/badge/Python-3.11%2B-blue)](https://www.python.org/)
+[![Streamlit](https://img.shields.io/badge/Streamlit-1.29%2B-red)](https://streamlit.io/)
 [![Licencia](https://img.shields.io/badge/Licencia-MIT-yellow)](LICENSE)
 
-Sistema automatizado para descargar masivamente los resultados del examen ICFES Saber 11 desde el portal oficial del ICFES.
+Aplicación web interactiva desarrollada con **Streamlit** para visualización y análisis estadístico de resultados del examen ICFES Saber 11.
 
-**🌐 Portal ICFES**: http://resultadossaber11.icfes.gov.co/
+**🚀 Despliegue**: Streamlit Community Cloud
+**📍 Ubicación**: `/media/disco1tb/ITC-Resultados-ICFES-2025`
 
 ---
 
 ## ✅ Estado del Proyecto
 
-**🎉 PROYECTO COMPLETADO Y PROBADO EN PRODUCCIÓN**
+**🎉 APLICACIÓN WEB FUNCIONAL Y LISTA PARA DESPLIEGUE**
 
-| Métrica | Resultado |
-|---------|-----------|
-| **Estudiantes procesados** | 36/36 ✅ |
-| **Tasa de éxito** | 100% 🎯 |
-| **Errores** | 0 ✅ |
-| **Tiempo total** | ~21 minutos ⚡ |
-| **Promedio por estudiante** | ~35 segundos 📊 |
-| **Fecha de prueba** | 14 de octubre de 2025 📅 |
+| Característica | Estado |
+|----------------|--------|
+| **Aplicación Streamlit** | ✅ Funcional |
+| **Análisis Estadístico** | ✅ Completo |
+| **Visualizaciones** | ✅ Interactivas |
+| **Datos de Ejemplo** | ✅ Incluidos |
+| **Listo para Cloud** | ✅ Configurado |
 
 ---
 
 ## 🚀 Características Principales
 
-### ✨ Funcionalidades Implementadas
+### ✨ Funcionalidades de la Aplicación Web
 
-- ✅ **Descarga automática de PDFs** de resultados ICFES Saber 11
-- ✅ **Lectura automática de Excel** con datos de estudiantes
-- ✅ **Manejo de tipos de documento** (TI - Tarjeta de Identidad, CC - Cédula de Ciudadanía)
-- ✅ **Gestión automática de sesiones** (logout entre estudiantes)
-- ✅ **Generación de PDFs** usando Selenium 4 print_page()
-- ✅ **Logs detallados** de ejecución (exitosos, errores, sin resultados)
-- ✅ **Modo de prueba** (1 estudiante) y **modo completo** (todos)
-- ✅ **Verificación de completitud** de PDFs descargados
-- ✅ **Manejo de nombres con acentos** en español
-- ✅ **Delays apropiados** entre solicitudes (3 segundos)
-- ✅ **Detección automática** de login completado
+- ✅ **Dashboard Interactivo** con métricas clave
+- ✅ **Análisis Estadístico Completo** por área de conocimiento
+- ✅ **Visualizaciones Interactivas** con Plotly
+- ✅ **Rankings y Clasificaciones** de estudiantes
+- ✅ **Comparación Temporal** 2024 vs 2025
+- ✅ **Análisis de Correlaciones** entre áreas
+- ✅ **Identificación de Estudiantes** que requieren apoyo
+- ✅ **Exportación de Datos** a CSV
+- ✅ **Diseño Responsivo** para móviles y tablets
+- ✅ **Modo Demostración** con datos de ejemplo
+
+### 📊 Análisis Disponibles
+
+1. **Resumen General**: Métricas globales y distribución de puntajes
+2. **Análisis por Área**: Estadísticas detalladas de cada área de conocimiento
+3. **Rankings**: Top 10 y clasificación por puntaje global
+4. **Comparación 2024-2025**: Evolución temporal de resultados
+5. **Correlaciones**: Relaciones entre diferentes áreas
 
 ### 🔐 Seguridad y Privacidad
 
-- ✅ **Archivos sensibles protegidos** con `.gitignore`
-- ✅ **PDFs de estudiantes NO se suben** a GitHub
-- ✅ **Logs con información personal NO se suben** a GitHub
-- ✅ **Archivos Excel con datos NO se suben** a GitHub
+- ✅ **Datos sensibles protegidos** con `.gitignore`
+- ✅ **Archivos Excel con datos reales NO se suben** a GitHub
+- ✅ **Aplicación usa datos de ejemplo** para demostración pública
+- ✅ **Ejecución local** para análisis con datos reales
 
 ---
 
@@ -55,30 +62,30 @@ Sistema automatizado para descargar masivamente los resultados del examen ICFES 
 
 ### Software Necesario
 
-- **Python 3.7 o superior**
-- **Firefox** (navegador)
+- **Python 3.11 o superior**
 - **Git** (para clonar el repositorio)
-- **Conexión a Internet estable**
+- **Navegador web moderno** (Chrome, Firefox, Safari, Edge)
 
 ### Librerías Python
 
-Las siguientes librerías están incluidas en el entorno virtual:
+Las siguientes librerías están incluidas en `requirements.txt`:
 
-- `selenium` - Automatización del navegador
-- `pandas` - Lectura de archivos Excel
-- `openpyxl` - Soporte para archivos .xlsx
-- `xlrd` - Soporte para archivos .xls
-- `webdriver-manager` - Gestión automática de drivers
+- `streamlit` - Framework para aplicaciones web
+- `pandas` - Análisis y manipulación de datos
+- `plotly` - Visualizaciones interactivas
+- `openpyxl` - Lectura de archivos Excel
+- `numpy` - Cálculos numéricos
+- `scipy` - Estadísticas avanzadas
 
 ---
 
-## 🛠️ Instalación
+## 🛠️ Instalación y Configuración
 
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/alvaretto/resultados-icfes.git
-cd resultados-icfes
+git clone https://github.com/alvarettosky/itc-analisis-resultados-icfes-2025.git
+cd itc-analisis-resultados-icfes-2025
 ```
 
 ### 2. Crear y activar entorno virtual
@@ -96,168 +103,149 @@ venv\Scripts\activate  # En Windows
 ### 3. Instalar dependencias
 
 ```bash
-pip install selenium pandas openpyxl xlrd webdriver-manager
+pip install -r requirements.txt
 ```
 
-### 4. Preparar archivo Excel
+### 4. Generar datos de ejemplo (opcional)
 
-Coloca tu archivo Excel con los datos de estudiantes en la raíz del proyecto. El archivo debe tener las siguientes columnas:
+```bash
+python generar_datos_ejemplo.py
+```
 
-- Primer Apellido
-- Segundo Apellido
-- Primer Nombre
-- Segundo Nombre
-- Tipo de documento (TI o CC)
-- Número de documento
+Esto creará el archivo `RESULTADOS-ICFES-EJEMPLO.xlsx` con datos ficticios para demostración.
 
 ---
 
 ## 📖 Uso
 
-### 📑 Ver Índice Completo del Proyecto
+### 🚀 Ejecutar la Aplicación Localmente
 
 ```bash
-cat 00-INDICE.md
+# Activar entorno virtual
+source venv/bin/activate
+
+# Ejecutar la aplicación
+streamlit run app.py
 ```
 
-### 🚀 Ejecución Rápida
+La aplicación se abrirá automáticamente en tu navegador en `http://localhost:8501`
 
-#### Modo de Prueba (Recomendado para primera vez)
+### 📊 Estructura del Archivo Excel
 
-Procesa solo 1 estudiante para verificar que todo funciona:
+Si deseas usar tus propios datos, el archivo Excel debe contener las siguientes columnas:
 
-```bash
-python3 12-descargar_resultados_icfes.py
-```
+- **Grupo**: Identificador del grupo (ej: 11A, 11B)
+- **Primer Apellido**
+- **Segundo Apellido**
+- **Primer Nombre**
+- **Segundo Nombre**
+- **Tipo documento**: TI o CC
+- **Número de documento**
+- **Lectura Crítica**: Puntaje (0-100)
+- **Matemáticas**: Puntaje (0-100)
+- **Sociales y Ciudadanas**: Puntaje (0-100)
+- **Ciencias Naturales**: Puntaje (0-100)
+- **Inglés**: Puntaje (0-100)
+- **Puntaje Global**: Puntaje total (0-500)
 
-Selecciona la opción `1` cuando se te pregunte.
-
-#### Modo Completo
-
-Para procesar todos los estudiantes:
-
-```bash
-python3 12-descargar_resultados_icfes.py
-```
-
-Selecciona la opción `2` cuando se te pregunte.
-
-### ✅ Verificar PDFs Descargados
-
-Después de ejecutar el script, verifica que todos los PDFs se descargaron correctamente:
-
-```bash
-python3 13-verificar_pdfs_completos.py
-```
+Guarda el archivo como `RESULTADOS-ICFES-AULA-REGULAR-2025.xlsx` en la raíz del proyecto.
 
 ---
 
 ## 📁 Estructura del Proyecto
 
 ```
-resultados-icfes/
+itc-analisis-resultados-icfes-2025/
 │
-├── 00-INDICE.md                          📑 Índice completo del proyecto ⭐
-├── 01-README.md                          📚 Documentación detallada
-├── 02-INICIO_RAPIDO.txt                  📚 Guía rápida de inicio
+├── app.py                                🚀 Aplicación Streamlit principal ⭐
+├── app_resultados_icfes.py              📊 Aplicación alternativa (completa)
+├── generar_datos_ejemplo.py             🔧 Generador de datos de ejemplo
 │
-├── 03-verificar_configuracion.py        ⚙️ Verificación de configuración
+├── requirements.txt                      📦 Dependencias Python
+├── requirements-webapp.txt               📦 Dependencias para Streamlit Cloud
+├── runtime.txt                           🐍 Versión de Python
 │
-├── 04-analizar_excel.py                  🔍 Análisis del archivo Excel
-├── 05-RESUMEN_ANALISIS.md                🔍 Resumen del análisis
+├── .streamlit/                           ⚙️ Configuración de Streamlit
+│   └── config.toml
 │
-├── 06-11-*.py                            🔬 Scripts de inspección (desarrollo)
+├── RESULTADOS-ICFES-EJEMPLO.xlsx        📊 Datos de ejemplo
+├── RESULTADOS-ICFES-AULA-REGULAR-2025.xlsx  📊 Datos reales (no en Git)
 │
-├── 12-descargar_resultados_icfes.py      🚀 SCRIPT PRINCIPAL ⭐⭐⭐
+├── README.md                             📚 Este archivo
+├── README-WEBAPP.md                      📚 Documentación de la webapp
+├── GUIA-DESPLIEGUE.md                   📚 Guía de despliegue
+├── INSTRUCCIONES-STREAMLIT-CLOUD.md     📚 Instrucciones para Streamlit Cloud
 │
-├── 13-verificar_pdfs_completos.py        ✅ Verificación post-descarga ⭐
-│
-├── 14-NOTAS_TECNICAS.md                  📖 Notas técnicas
-├── 15-SOLUCION_FINAL.md                  📖 Solución técnica completa
-├── 16-RESUMEN_FINAL_DESCARGA.md          📖 Resumen de descarga exitosa
-├── 17-CHANGELOG.md                       📖 Historial de cambios
-│
-├── 18-sincronizar_github.sh              🔄 Sincronización con GitHub ⭐
-├── 19-GITHUB_SYNC.md                     🔄 Guía de sincronización
-│
-├── 20-mostrar_ayuda.py                   🛠️ Utilidades
-│
-├── pdfs_descargados/                     📄 PDFs descargados
-│   └── *.pdf                             (no se suben a GitHub)
-│
-└── logs/                                 📝 Logs de ejecución
-    └── *.txt                             (no se suben a GitHub)
+├── venv/                                 🐍 Entorno virtual (no en Git)
+├── logs/                                 📝 Logs de ejecución
+└── pdfs_descargados/                    📄 PDFs (no en Git)
 ```
 
 ---
 
-## 🎯 Flujo de Trabajo
+## 🚀 Despliegue en Streamlit Cloud
 
-### 1️⃣ Preparación
-- Activar entorno virtual
-- Verificar configuración
-- Preparar archivo Excel
+### Pasos para Desplegar
 
-### 2️⃣ Ejecución
-- Ejecutar script principal
-- Resolver CAPTCHAs manualmente
-- Esperar a que termine el proceso
+1. **Asegúrate de que el código esté en GitHub**
+   ```bash
+   git add .
+   git commit -m "Preparar para despliegue"
+   git push origin main
+   ```
 
-### 3️⃣ Verificación
-- Verificar PDFs descargados
-- Revisar logs de ejecución
-- Confirmar completitud
+2. **Ve a Streamlit Cloud**
+   - Visita: https://share.streamlit.io/
+   - Inicia sesión con tu cuenta de GitHub
 
-### 4️⃣ Sincronización (Opcional)
-- Sincronizar cambios con GitHub
-- Mantener respaldo en la nube
+3. **Crea una nueva app**
+   - Repository: `alvarettosky/itc-analisis-resultados-icfes-2025`
+   - Branch: `main`
+   - Main file: `app.py`
+
+4. **Despliega**
+   - Click en "Deploy!"
+   - Espera 2-3 minutos
+   - ¡Tu app estará en línea!
+
+Para más detalles, consulta `INSTRUCCIONES-STREAMLIT-CLOUD.md`
 
 ---
 
 ## ⚠️ Notas Importantes
 
-### Durante la Ejecución
+### Privacidad y Seguridad
 
-1. **Supervisión requerida**: Debes estar presente para resolver los CAPTCHAs y hacer clic en "Ingresar"
-2. **Conexión estable**: Asegúrate de tener una conexión a Internet estable durante todo el proceso
-3. **No cerrar el navegador**: No cierres el navegador Firefox mientras el script está ejecutándose
-4. **Backup del Excel**: Haz una copia de seguridad del archivo Excel antes de comenzar
-5. **Verificación post-descarga**: Usa `13-verificar_pdfs_completos.py` para confirmar que todos los PDFs se descargaron
+1. **Datos sensibles**: Los archivos Excel con datos reales NO se suben a GitHub
+2. **Modo demostración**: La aplicación pública usa datos de ejemplo ficticios
+3. **Uso local**: Para analizar datos reales, ejecuta la aplicación localmente
+4. **Archivos protegidos**: `.gitignore` protege archivos sensibles
 
-### Proceso por Estudiante
+### Uso de la Aplicación
 
-El script se **PAUSARÁ** en cada estudiante para que:
-1. Resuelvas el CAPTCHA (si aparece)
-2. Hagas clic en "Ingresar"
-3. Esperes a que cargue la página de resultados
-4. Presiones ENTER en la terminal después de ver los resultados
-
-El script automáticamente:
-- Generará el PDF
-- Cerrará la sesión
-- Continuará con el siguiente estudiante
+1. **Navegación**: Usa las pestañas superiores para cambiar entre análisis
+2. **Interactividad**: Los gráficos son interactivos (zoom, pan, hover)
+3. **Exportación**: Puedes exportar datos filtrados a CSV
+4. **Actualización**: Recarga la página (F5) si actualizas el archivo Excel
 
 ---
 
-## 📊 Resultados de la Primera Ejecución Completa
+## 🎯 Casos de Uso
 
-### Estadísticas
+### Para Docentes
+- Identificar estudiantes que requieren apoyo
+- Analizar fortalezas y debilidades por área
+- Generar reportes para reuniones
 
-- **Fecha**: 14 de octubre de 2025
-- **Hora de inicio**: 12:21:18
-- **Hora de finalización**: 12:42:30
-- **Duración total**: 21 minutos y 12 segundos
-- **Estudiantes procesados**: 36/36 ✅
-- **Tasa de éxito**: 100% 🎉
-- **Errores**: 0 ✅
+### Para Coordinadores
+- Evaluar desempeño general del grupo
+- Identificar áreas que requieren refuerzo
+- Tomar decisiones basadas en datos
 
-### Distribución por Tipo de Documento
-
-- **31 estudiantes con TI** (Tarjeta de Identidad) ✅
-- **5 estudiantes con CC** (Cédula de Ciudadanía) ✅
-- **Todos los PDFs verificados** con `13-verificar_pdfs_completos.py` ✅
-
-Ver detalles completos en: `16-RESUMEN_FINAL_DESCARGA.md`
+### Para Estudiantes
+- Ver perfil individual de competencias
+- Compararse con el promedio del grupo
+- Identificar áreas de mejora
 
 ---
 
@@ -268,10 +256,6 @@ Este proyecto está sincronizado con GitHub para respaldo y colaboración.
 ### Sincronizar cambios
 
 ```bash
-# Opción 1: Script automático (recomendado)
-./18-sincronizar_github.sh "Descripción de los cambios"
-
-# Opción 2: Comandos manuales
 git add .
 git commit -m "Descripción de los cambios"
 git push origin main
@@ -279,11 +263,7 @@ git push origin main
 
 ### Ver el repositorio
 
-🌐 https://github.com/alvaretto/resultados-icfes
-
-### Guía completa
-
-📖 Ver `19-GITHUB_SYNC.md` para instrucciones detalladas
+🌐 https://github.com/alvarettosky/itc-analisis-resultados-icfes-2025
 
 ---
 
@@ -291,26 +271,23 @@ git push origin main
 
 Si encuentras problemas:
 
-1. Revisa los logs en la carpeta `logs/`
-2. Consulta la documentación:
-   - `00-INDICE.md` - Índice completo del proyecto
-   - `01-README.md` - Documentación detallada (este archivo)
-   - `02-INICIO_RAPIDO.txt` - Guía rápida de inicio
-   - `15-SOLUCION_FINAL.md` - Solución técnica completa
-   - `14-NOTAS_TECNICAS.md` - Notas técnicas del fix de tipos de documento
-   - `16-RESUMEN_FINAL_DESCARGA.md` - Resumen de la descarga exitosa
-   - `19-GITHUB_SYNC.md` - Guía de sincronización con GitHub
-3. Verifica que el portal del ICFES esté disponible: http://resultadossaber11.icfes.gov.co/
-4. Ejecuta el script de verificación: `python3 13-verificar_pdfs_completos.py`
+1. Consulta la documentación:
+   - `README.md` - Este archivo
+   - `README-WEBAPP.md` - Documentación de la aplicación web
+   - `GUIA-DESPLIEGUE.md` - Guía de despliegue
+   - `INSTRUCCIONES-STREAMLIT-CLOUD.md` - Instrucciones para Streamlit Cloud
+2. Verifica que el archivo Excel tenga el formato correcto
+3. Limpia la caché de Streamlit: Menú > Clear cache
 
 ---
 
 ## 🛠️ Tecnologías Utilizadas
 
-- **Python 3.13** - Lenguaje de programación
-- **Selenium 4** - Automatización del navegador
-- **Firefox/GeckoDriver** - Navegador y driver
-- **Pandas** - Procesamiento de datos
+- **Python 3.11+** - Lenguaje de programación
+- **Streamlit 1.29+** - Framework para aplicaciones web
+- **Pandas 2.0+** - Análisis de datos
+- **Plotly 5.18+** - Visualizaciones interactivas
+- **NumPy & SciPy** - Cálculos estadísticos
 - **Git/GitHub** - Control de versiones
 
 ---
@@ -323,65 +300,41 @@ Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más det
 
 ## 👨‍💻 Autor
 
-**Álvaro Ángel Molina** ([@alvaretto](https://github.com/alvaretto))
+**Álvaro Ángel Molina** ([@alvarettosky](https://github.com/alvarettosky))
 
 ---
 
 ## 🙏 Agradecimientos
 
-- Portal ICFES por proporcionar acceso a los resultados
-- Comunidad de Selenium por la excelente documentación
+- Comunidad de Streamlit por el excelente framework
+- Comunidad de Plotly por las visualizaciones interactivas
 - Todos los que contribuyen a mejorar este proyecto
-
----
-
-## 🚀 Fase 2: Extracción de Puntajes (En Desarrollo)
-
-### Objetivo
-Extraer automáticamente los puntajes de los resultados ICFES y generar un archivo Excel consolidado.
-
-### Estado Actual
-🔄 **En Desarrollo** (30% completado)
-
-### Scripts Creados
-- `explorar_estructura_pdf.py` - Análisis de estructura de PDFs ✅
-- `explorar_pdf_con_ocr.py` - Extracción con OCR ✅
-- `inspeccionar_html_resultados.py` - Inspección de HTML ✅
-- `21-extraer_puntajes_desde_web.py` - Extracción desde web 🔄
-
-### Próximos Pasos
-1. Analizar estructura HTML de la página de resultados
-2. Identificar selectores para puntajes individuales
-3. Completar script de extracción
-4. Generar archivo Excel consolidado: `RESULTADOS-ICFES-AULA-REGULAR.xlsx`
-
-Ver plan completo en: `FASE2-PLAN.md`
 
 ---
 
 ## 📅 Historial de Versiones
 
-### Versión 2.1 (En Desarrollo)
-- 🔄 Fase 2: Extracción de puntajes desde web
-- 🔄 Generación de Excel consolidado
-- ✅ Instaladas librerías: pdfplumber, PyPDF2, pytesseract, pdf2image
-- ✅ Scripts de exploración y análisis creados
+### Versión 3.0 (15 de octubre de 2025)
+- ✅ Aplicación web Streamlit completamente funcional
+- ✅ Análisis estadístico completo implementado
+- ✅ Visualizaciones interactivas con Plotly
+- ✅ Modo demostración con datos de ejemplo
+- ✅ Preparado para despliegue en Streamlit Cloud
+- ✅ Documentación actualizada
+- ✅ Repositorio migrado a nueva ubicación
 
 ### Versión 2.0 (14 de octubre de 2025)
-- ✅ Sistema 100% funcional y probado en producción
-- ✅ 36/36 estudiantes procesados exitosamente
-- ✅ Gestión automática de sesiones implementada
-- ✅ Verificación de completitud de PDFs
-- ✅ Sincronización con GitHub configurada
-- ✅ Documentación completa y actualizada
-- ✅ Archivos organizados con prefijos numéricos
+- ✅ Sistema de descarga funcional (scripts de desarrollo)
+- ✅ Procesamiento de datos de estudiantes
+- ✅ Generación de reportes
 
 Ver historial completo en: `17-CHANGELOG.md`
 
 ---
 
-**Desarrollado con ❤️ para facilitar la gestión educativa**
+**Desarrollado con ❤️ para facilitar el análisis educativo**
 
-**Última actualización**: 14 de octubre de 2025
-**Versión**: 2.1 (Fase 2 en desarrollo)
+**Última actualización**: 15 de octubre de 2025
+**Versión**: 3.0 (Aplicación Web Streamlit)
+**Repositorio**: https://github.com/alvarettosky/itc-analisis-resultados-icfes-2025
 
