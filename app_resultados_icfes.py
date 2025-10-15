@@ -208,15 +208,15 @@ def main():
     
 
     # Tabs principales
-    tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
+    tab6, tab1, tab2, tab3, tab4, tab5 = st.tabs([
+        "📅 Comparación 2024-2025",
         "📊 Vista General",
         "👤 Por Estudiante",
         "📚 Por Área",
         "🏆 Rankings",
-        "📈 Segmentación",
-        "📅 Comparación 2024-2025"
+        "📈 Segmentación"
     ])
-    
+
     # TAB 1: Vista General
     with tab1:
         st.header("📊 Resumen General de Resultados")
@@ -319,7 +319,7 @@ def main():
                 f"{int(round(df['Puntaje Global'].max() - df['Puntaje Global'].min()))}",
                 help="Diferencia entre el máximo y mínimo"
             )
-    
+
     # TAB 2: Por Estudiante
     with tab2:
         st.header("👤 Análisis por Estudiante Individual")
