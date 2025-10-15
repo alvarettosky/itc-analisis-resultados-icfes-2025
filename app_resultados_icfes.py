@@ -211,9 +211,9 @@ def main():
         st.image("https://via.placeholder.com/300x100/1f77b4/ffffff?text=ICFES+2025", use_container_width=True)
         st.markdown("### 📋 Información General")
         st.metric("Total de Estudiantes", len(df))
-        st.metric("Promedio Global", f"{df['Puntaje Global'].mean():.1f}")
-        st.metric("Puntaje Máximo", f"{df['Puntaje Global'].max():.1f}")
-        st.metric("Puntaje Mínimo", f"{df['Puntaje Global'].min():.1f}")
+        st.metric("Promedio Global", f"{int(round(df['Puntaje Global'].mean()))}")
+        st.metric("Puntaje Máximo", f"{int(round(df['Puntaje Global'].max()))}")
+        st.metric("Puntaje Mínimo", f"{int(round(df['Puntaje Global'].min()))}")
         
         st.markdown("---")
         st.markdown("### 🎯 Navegación")
@@ -269,7 +269,7 @@ def main():
             promedio_global = df['Puntaje Global'].mean()
             st.metric(
                 "Promedio Global",
-                f"{promedio_global:.1f}",
+                f"{int(round(promedio_global))}",
                 help="Promedio del puntaje global (0-500)"
             )
 
@@ -277,7 +277,7 @@ def main():
             mediana_global = df['Puntaje Global'].median()
             st.metric(
                 "Mediana Global",
-                f"{mediana_global:.1f}",
+                f"{int(round(mediana_global))}",
                 help="Mediana del puntaje global (0-500)"
             )
 
@@ -294,8 +294,8 @@ def main():
             for area in AREAS:
                 stats_data.append({
                     'Área': area,
-                    'Promedio': f"{df[area].mean():.1f}",
-                    'Mediana': f"{df[area].median():.1f}",
+                    'Promedio': f"{int(round(df[area].mean()))}",
+                    'Mediana': f"{int(round(df[area].median()))}",
                     'Desv. Std': f"{df[area].std():.1f}"
                 })
 
@@ -315,7 +315,7 @@ def main():
                 x=df['Puntaje Global'].mean(),
                 line_dash="dash",
                 line_color="red",
-                annotation_text=f"Promedio: {df['Puntaje Global'].mean():.1f}"
+                annotation_text=f"Promedio: {int(round(df['Puntaje Global'].mean()))}"
             )
             fig.update_layout(height=400)
             st.plotly_chart(fig, use_container_width=True)
@@ -330,21 +330,21 @@ def main():
         with col1:
             st.metric(
                 "Puntaje Máximo",
-                f"{df['Puntaje Global'].max():.1f}",
+                f"{int(round(df['Puntaje Global'].max()))}",
                 help="Mejor puntaje global del grupo"
             )
 
         with col2:
             st.metric(
                 "Puntaje Mínimo",
-                f"{df['Puntaje Global'].min():.1f}",
+                f"{int(round(df['Puntaje Global'].min()))}",
                 help="Menor puntaje global del grupo"
             )
 
         with col3:
             st.metric(
                 "Rango",
-                f"{df['Puntaje Global'].max() - df['Puntaje Global'].min():.1f}",
+                f"{int(round(df['Puntaje Global'].max() - df['Puntaje Global'].min()))}",
                 help="Diferencia entre el máximo y mínimo"
             )
     
@@ -405,7 +405,7 @@ def main():
                 with col2:
                     st.markdown("### 🎯 Puntaje Global")
                     puntaje_global = estudiante['Puntaje Global']
-                    st.metric("Puntaje Total", f"{puntaje_global:.1f}/500")
+                    st.metric("Puntaje Total", f"{int(round(puntaje_global))}/500")
                     clasificacion = clasificar_por_rango(puntaje_global)
                     st.write(f"**Clasificación:** {clasificacion}")
                 
@@ -432,12 +432,12 @@ def main():
                         with col_a:
                             st.write(f"**{area}:**")
                         with col_b:
-                            st.write(f"{puntaje:.1f}/100")
+                            st.write(f"{int(round(puntaje))}/100")
                         with col_c:
                             if diferencia > 0:
-                                st.write(f"🟢 +{diferencia:.1f}")
+                                st.write(f"🟢 +{int(round(diferencia))}")
                             else:
-                                st.write(f"🔴 {diferencia:.1f}")
+                                st.write(f"🔴 {int(round(diferencia))}")
                 
                 with col2:
                     st.markdown("### 🎯 Perfil de Competencias")
@@ -492,13 +492,13 @@ def main():
                 x=stats_area['Promedio'],
                 line_dash="dash",
                 line_color="red",
-                annotation_text=f"Promedio: {stats_area['Promedio']:.1f}"
+                annotation_text=f"Promedio: {int(round(stats_area['Promedio']))}"
             )
             fig.add_vline(
                 x=stats_area['Mediana'],
                 line_dash="dot",
                 line_color="green",
-                annotation_text=f"Mediana: {stats_area['Mediana']:.1f}"
+                annotation_text=f"Mediana: {int(round(stats_area['Mediana']))}"
             )
             st.plotly_chart(fig, use_container_width=True)
 
@@ -558,13 +558,19 @@ def main():
 
         with col1:
             st.subheader(f"🏆 Top 10 en {area_seleccionada}")
-            top_10 = df.nlargest(10, area_seleccionada)[['Nombre Completo', area_seleccionada]].reset_index(drop=True)
+            top_10 = df.nlargest(10, area_seleccionada)[['Nombre Completo', area_seleccionada]].copy()
+            # Redondear puntajes a enteros
+            top_10[area_seleccionada] = top_10[area_seleccionada].round(0).astype(int)
+            top_10 = top_10.reset_index(drop=True)
             top_10.index = top_10.index + 1
             st.dataframe(top_10, use_container_width=True)
 
         with col2:
             st.subheader(f"📉 Estudiantes que Requieren Apoyo")
-            bottom_10 = df.nsmallest(10, area_seleccionada)[['Nombre Completo', area_seleccionada]].reset_index(drop=True)
+            bottom_10 = df.nsmallest(10, area_seleccionada)[['Nombre Completo', area_seleccionada]].copy()
+            # Redondear puntajes a enteros
+            bottom_10[area_seleccionada] = bottom_10[area_seleccionada].round(0).astype(int)
+            bottom_10 = bottom_10.reset_index(drop=True)
             bottom_10.index = bottom_10.index + 1
             st.dataframe(bottom_10, use_container_width=True)
 
@@ -592,6 +598,9 @@ def main():
         st.subheader("🥇 Ranking General por Puntaje Global")
 
         df_ranking = df[['Nombre Completo', 'Puntaje Global'] + AREAS].copy()
+        # Redondear puntajes a enteros
+        for col in ['Puntaje Global'] + AREAS:
+            df_ranking[col] = df_ranking[col].round(0).astype(int)
         df_ranking = df_ranking.sort_values('Puntaje Global', ascending=False).reset_index(drop=True)
         df_ranking.index = df_ranking.index + 1
         df_ranking.index.name = 'Posición'
@@ -616,6 +625,8 @@ def main():
         )
 
         df_area_ranking = df[['Nombre Completo', area_ranking]].copy()
+        # Redondear puntajes a enteros
+        df_area_ranking[area_ranking] = df_area_ranking[area_ranking].round(0).astype(int)
         df_area_ranking = df_area_ranking.sort_values(area_ranking, ascending=False).reset_index(drop=True)
         df_area_ranking.index = df_area_ranking.index + 1
         df_area_ranking.index.name = 'Posición'
@@ -636,11 +647,14 @@ def main():
         st.subheader("⭐ Estudiantes Destacados (Top 10%)")
 
         percentil_90 = df['Puntaje Global'].quantile(0.90)
-        destacados = df[df['Puntaje Global'] >= percentil_90][['Nombre Completo', 'Puntaje Global'] + AREAS]
+        destacados = df[df['Puntaje Global'] >= percentil_90][['Nombre Completo', 'Puntaje Global'] + AREAS].copy()
+        # Redondear puntajes a enteros
+        for col in ['Puntaje Global'] + AREAS:
+            destacados[col] = destacados[col].round(0).astype(int)
         destacados = destacados.sort_values('Puntaje Global', ascending=False).reset_index(drop=True)
         destacados.index = destacados.index + 1
 
-        st.info(f"Estudiantes con puntaje global ≥ {percentil_90:.1f} (Top 10%)")
+        st.info(f"Estudiantes con puntaje global ≥ {int(round(percentil_90))} (Top 10%)")
         st.dataframe(destacados, use_container_width=True)
 
     # TAB 5: Segmentación
@@ -682,11 +696,14 @@ def main():
         st.subheader("🎯 Estudiantes que Requieren Apoyo (Bottom 20%)")
 
         percentil_20 = df['Puntaje Global'].quantile(0.20)
-        apoyo = df[df['Puntaje Global'] <= percentil_20][['Nombre Completo', 'Puntaje Global'] + AREAS]
+        apoyo = df[df['Puntaje Global'] <= percentil_20][['Nombre Completo', 'Puntaje Global'] + AREAS].copy()
+        # Redondear puntajes a enteros
+        for col in ['Puntaje Global'] + AREAS:
+            apoyo[col] = apoyo[col].round(0).astype(int)
         apoyo = apoyo.sort_values('Puntaje Global').reset_index(drop=True)
         apoyo.index = apoyo.index + 1
 
-        st.warning(f"Estudiantes con puntaje global ≤ {percentil_20:.1f} (Bottom 20%)")
+        st.warning(f"Estudiantes con puntaje global ≤ {int(round(percentil_20))} (Bottom 20%)")
         st.dataframe(apoyo, use_container_width=True)
 
         st.markdown("---")
@@ -730,7 +747,11 @@ def main():
 
         # Mostrar tabla
         columnas_mostrar = ['Nombre Completo', 'Puntaje Global'] + AREAS + ['Clasificación']
-        df_mostrar = df_filtrado[columnas_mostrar].sort_values('Puntaje Global', ascending=False).reset_index(drop=True)
+        df_mostrar = df_filtrado[columnas_mostrar].copy()
+        # Redondear puntajes a enteros
+        for col in ['Puntaje Global'] + AREAS:
+            df_mostrar[col] = df_mostrar[col].round(0).astype(int)
+        df_mostrar = df_mostrar.sort_values('Puntaje Global', ascending=False).reset_index(drop=True)
         df_mostrar.index = df_mostrar.index + 1
 
         st.dataframe(df_mostrar, use_container_width=True, height=400)
