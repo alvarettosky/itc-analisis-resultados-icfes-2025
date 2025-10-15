@@ -28,12 +28,21 @@ st.set_page_config(
 # Estilos CSS personalizados
 st.markdown("""
 <style>
+    .institution-header {
+        font-size: 2rem;
+        font-weight: bold;
+        color: #1f77b4;
+        text-align: center;
+        padding: 1rem 0 0.5rem 0;
+        border-bottom: none;
+        margin-bottom: 0;
+    }
     .main-header {
         font-size: 2.5rem;
         font-weight: bold;
         color: #1f77b4;
         text-align: center;
-        padding: 1rem 0;
+        padding: 0.5rem 0 1rem 0;
         border-bottom: 3px solid #1f77b4;
         margin-bottom: 2rem;
     }
@@ -197,6 +206,7 @@ def main():
     """Función principal de la aplicación"""
     
     # Header
+    st.markdown('<div class="institution-header">Instituto Tecnológico Calarcá</div>', unsafe_allow_html=True)
     st.markdown('<div class="main-header">📊 Análisis de Resultados ICFES Saber 11 - 2025</div>', unsafe_allow_html=True)
     
     # Cargar datos
