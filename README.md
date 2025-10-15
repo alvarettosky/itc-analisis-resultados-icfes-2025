@@ -51,7 +51,7 @@ Aplicación web interactiva desarrollada con **Streamlit** para visualización y
 
 ### 🔐 Seguridad y Privacidad
 
-- ⚠️ **IMPORTANTE**: Este repositorio contiene datos reales de 43 estudiantes del ITC
+- ⚠️ **IMPORTANTE**: Este repositorio contiene datos reales de 42 estudiantes del ITC
 - ⚠️ **Datos públicos**: El archivo `ITC-RESULTADOS-ICFES-2025-ADAPTADO.xlsx` está en el repositorio público
 - ✅ **Otros datos protegidos** con `.gitignore`
 - ✅ **Aplicación usa datos reales ITC** en producción
@@ -61,7 +61,7 @@ Aplicación web interactiva desarrollada con **Streamlit** para visualización y
 
 La aplicación busca archivos en este orden de prioridad:
 
-1. **`ITC-RESULTADOS-ICFES-2025-ADAPTADO.xlsx`** (43 estudiantes reales del ITC)
+1. **`ITC-RESULTADOS-ICFES-2025-ADAPTADO.xlsx`** (42 estudiantes reales del ITC)
    - ⚠️ Incluido en el repositorio público
    - Contiene nombres completos y puntajes reales
 
@@ -183,7 +183,7 @@ itc-analisis-resultados-icfes-2025/
 ├── .streamlit/                           ⚙️ Configuración de Streamlit
 │   └── config.toml
 │
-├── ITC-RESULTADOS-ICFES-2025-ADAPTADO.xlsx  📊 Datos reales ITC (43 estudiantes)
+├── ITC-RESULTADOS-ICFES-2025-ADAPTADO.xlsx  📊 Datos reales ITC (42 estudiantes)
 ├── RESULTADOS-ICFES-EJEMPLO.xlsx        📊 Datos de ejemplo (ficticios)
 ├── RESULTADOS-ICFES-AULA-REGULAR-2025.xlsx  📊 Otros datos reales (no en Git)
 │
@@ -232,9 +232,9 @@ Para más detalles, consulta `INSTRUCCIONES-STREAMLIT-CLOUD.md`
 
 ### Privacidad y Seguridad
 
-1. **Datos ITC públicos**: El archivo `ITC-RESULTADOS-ICFES-2025-ADAPTADO.xlsx` con 43 estudiantes reales está en el repositorio público
+1. **Datos ITC públicos**: El archivo `ITC-RESULTADOS-ICFES-2025-ADAPTADO.xlsx` con 42 estudiantes reales está en el repositorio público
 2. **Otros datos protegidos**: Otros archivos Excel con datos sensibles NO se suben a GitHub
-3. **Aplicación en producción**: Usa los datos reales del ITC (43 estudiantes)
+3. **Aplicación en producción**: Usa los datos reales del ITC (42 estudiantes)
 4. **Uso local**: Para analizar otros datos reales, ejecuta la aplicación localmente
 5. **Archivos protegidos**: `.gitignore` protege otros archivos sensibles
 

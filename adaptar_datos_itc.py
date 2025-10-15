@@ -12,7 +12,11 @@ df_original = pd.read_excel('ITC-RESULTADOS-ICFES-2025.xlsx')
 
 print("📊 Archivo original:")
 print(f"   Columnas: {list(df_original.columns)}")
-print(f"   Filas: {len(df_original)}")
+print(f"   Filas totales: {len(df_original)}")
+
+# Eliminar filas con nombres vacíos (filas de totales/promedios)
+df_original = df_original[df_original['NOMBRES Y APELLIDOS'].notna()].copy()
+print(f"   Estudiantes válidos: {len(df_original)}")
 
 # Crear DataFrame adaptado
 df_adaptado = pd.DataFrame()
