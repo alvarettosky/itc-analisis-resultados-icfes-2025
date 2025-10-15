@@ -113,6 +113,19 @@ def cargar_datos():
         st.error(f"Error al cargar los datos: {str(e)}")
         return None, None
 
+def clasificar_por_rango(puntaje):
+    """Clasifica un puntaje global en categorías"""
+    if pd.isna(puntaje):
+        return 'Sin datos'
+    elif puntaje <= 200:
+        return 'Bajo (0-200)'
+    elif puntaje <= 300:
+        return 'Medio (201-300)'
+    elif puntaje <= 400:
+        return 'Alto (301-400)'
+    else:
+        return 'Superior (401-500)'
+
 def crear_radar_chart(estudiante_data, areas):
     """Crea un gráfico de radar para un estudiante"""
     valores = [estudiante_data[area] for area in areas]
@@ -273,13 +286,101 @@ def main():
                 help="Diferencia entre el máximo y mínimo"
             )
     
-    # Resto de tabs se importan del archivo original
-    # Por brevedad, aquí solo muestro la estructura principal
-    
+    # TAB 2: Análisis por Estudiante Individual
     with tab2:
         st.header("👤 Análisis por Estudiante Individual")
-        st.info("Selecciona un estudiante para ver su perfil detallado")
-        # ... código del TAB 2 ...
+
+        # Búsqueda de estudiante
+        col1, col2 = st.columns([3, 1])
+
+        with col1:
+            busqueda = st.text_input(
+                "🔍 Buscar estudiante por nombre o documento",
+                placeholder="Escribe el nombre o número de documento..."
+            )
+
+        with col2:
+            st.markdown("<br>", unsafe_allow_html=True)
+            mostrar_todos = st.checkbox("Mostrar todos", value=False)
+
+        # Filtrar estudiantes
+        if busqueda:
+            df_filtrado = df[
+                df['Nombre Completo'].str.contains(busqueda, case=False, na=False) |
+                df['Número de documento'].astype(str).str.contains(busqueda, na=False)
+            ]
+        elif mostrar_todos:
+            df_filtrado = df
+        else:
+            df_filtrado = df.head(5)
+
+        if len(df_filtrado) == 0:
+            st.warning("No se encontraron estudiantes con ese criterio de búsqueda.")
+        else:
+            st.info(f"Mostrando {len(df_filtrado)} estudiante(s)")
+
+            # Selector de estudiante
+            estudiante_seleccionado = st.selectbox(
+                "Selecciona un estudiante para ver su perfil detallado:",
+                df_filtrado['Nombre Completo'].tolist()
+            )
+
+            if estudiante_seleccionado:
+                estudiante = df_filtrado[df_filtrado['Nombre Completo'] == estudiante_seleccionado].iloc[0]
+
+                st.markdown("---")
+
+                # Información del estudiante
+                col1, col2, col3 = st.columns(3)
+
+                with col1:
+                    st.markdown("### 📋 Datos Personales")
+                    st.write(f"**Nombre:** {estudiante['Nombre Completo']}")
+                    st.write(f"**Documento:** {estudiante['Tipo documento']} {estudiante['Número de documento']}")
+                    if 'Grupo' in estudiante and pd.notna(estudiante['Grupo']):
+                        st.write(f"**Grupo:** {estudiante['Grupo']}")
+
+                with col2:
+                    st.markdown("### 🎯 Puntaje Global")
+                    puntaje_global = estudiante['Puntaje Global']
+                    st.metric("Puntaje Total", f"{int(round(puntaje_global))}/500")
+                    clasificacion = clasificar_por_rango(puntaje_global)
+                    st.write(f"**Clasificación:** {clasificacion}")
+
+                with col3:
+                    st.markdown("### 📊 Posición")
+                    ranking = (df['Puntaje Global'] > puntaje_global).sum() + 1
+                    st.metric("Ranking General", f"{ranking}° de {len(df)}")
+                    percentil = ((len(df) - ranking + 1) / len(df)) * 100
+                    st.write(f"**Percentil:** {percentil:.0f}%")
+
+                st.markdown("---")
+
+                # Puntajes por área
+                col1, col2 = st.columns(2)
+
+                with col1:
+                    st.markdown("### 📚 Puntajes por Área")
+                    for area in AREAS:
+                        puntaje = estudiante[area]
+                        promedio_area = df[area].mean()
+                        diferencia = puntaje - promedio_area
+
+                        col_a, col_b, col_c = st.columns([2, 1, 1])
+                        with col_a:
+                            st.write(f"**{area}:**")
+                        with col_b:
+                            st.write(f"{int(round(puntaje))}/100")
+                        with col_c:
+                            if diferencia > 0:
+                                st.write(f"🟢 +{int(round(diferencia))}")
+                            else:
+                                st.write(f"🔴 {int(round(diferencia))}")
+
+                with col2:
+                    st.markdown("### 🎯 Perfil de Competencias")
+                    fig_radar = crear_radar_chart(estudiante, AREAS)
+                    st.plotly_chart(fig_radar, use_container_width=True)
     
     with tab3:
         st.header("📚 Análisis por Área de Conocimiento")
