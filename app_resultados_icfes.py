@@ -106,6 +106,33 @@ def cargar_datos():
         st.error(f"Error al cargar el archivo: {e}")
         return None
 
+@st.cache_data
+def cargar_datos_historicos():
+    """Carga los datos históricos de comparación entre años"""
+    try:
+        df_completo = pd.read_excel(ARCHIVO_EXCEL)
+
+        # Extraer las filas de datos históricos
+        # Fila 37 (índice 37): Promedios 2025
+        # Fila 38 (índice 38): Promedios 2024
+        # Fila 39 (índice 39): Avance (diferencia)
+
+        if len(df_completo) >= 40:
+            datos_2025 = df_completo.iloc[37][AREAS + ['Puntaje Global']].to_dict()
+            datos_2024 = df_completo.iloc[38][AREAS + ['Puntaje Global']].to_dict()
+            avance = df_completo.iloc[39][AREAS + ['Puntaje Global']].to_dict()
+
+            return {
+                '2025': datos_2025,
+                '2024': datos_2024,
+                'Avance': avance
+            }
+        else:
+            return None
+    except Exception as e:
+        st.error(f"Error al cargar datos históricos: {e}")
+        return None
+
 def calcular_estadisticas(df, columna):
     """Calcula estadísticas descriptivas para una columna"""
     datos = df[columna].dropna()
@@ -196,6 +223,7 @@ def main():
         - **Por Área**: Análisis por materia
         - **Rankings**: Rankings generales y por área
         - **Segmentación**: Clasificación por rangos
+        - **Comparación 2024-2025**: Avance entre años
         """)
 
         st.markdown("---")
@@ -208,12 +236,13 @@ def main():
         """)
     
     # Tabs principales
-    tab1, tab2, tab3, tab4, tab5 = st.tabs([
+    tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
         "📊 Vista General",
         "👤 Por Estudiante",
         "📚 Por Área",
         "🏆 Rankings",
-        "📈 Segmentación"
+        "📈 Segmentación",
+        "📅 Comparación 2024-2025"
     ])
     
     # TAB 1: Vista General
@@ -714,6 +743,237 @@ def main():
             file_name=f"resultados_icfes_filtrados_{datetime.now().strftime('%Y%m%d')}.csv",
             mime="text/csv"
         )
+
+    # TAB 6: Comparación 2024-2025
+    with tab6:
+        st.header("📅 Comparación de Resultados 2024 vs 2025")
+
+        # Cargar datos históricos
+        datos_historicos = cargar_datos_historicos()
+
+        if datos_historicos is None:
+            st.warning("⚠️ No se encontraron datos históricos de comparación en el archivo Excel.")
+            st.info("Los datos históricos deben estar en las filas 37-39 del archivo Excel.")
+        else:
+            # Nota metodológica
+            st.info("""
+            **📚 Comparación Válida:** Esta sección compara los promedios de la MISMA área entre diferentes años.
+            Esta es una comparación metodológicamente válida según las recomendaciones del ICFES.
+            """)
+
+            st.markdown("---")
+
+            # Métricas principales
+            st.subheader("📊 Resumen de Avance General")
+
+            col1, col2, col3 = st.columns(3)
+
+            with col1:
+                puntaje_2025 = datos_historicos['2025']['Puntaje Global']
+                st.metric(
+                    "Puntaje Global 2025",
+                    f"{puntaje_2025:.1f}",
+                    help="Promedio del puntaje global en 2025"
+                )
+
+            with col2:
+                puntaje_2024 = datos_historicos['2024']['Puntaje Global']
+                st.metric(
+                    "Puntaje Global 2024",
+                    f"{puntaje_2024:.1f}",
+                    help="Promedio del puntaje global en 2024"
+                )
+
+            with col3:
+                avance_global = datos_historicos['Avance']['Puntaje Global']
+                delta_color = "normal" if avance_global >= 0 else "inverse"
+                st.metric(
+                    "Avance",
+                    f"{avance_global:.2f}",
+                    delta=f"{avance_global:.2f} puntos",
+                    help="Diferencia entre 2025 y 2024"
+                )
+
+            st.markdown("---")
+
+            # Comparación por área
+            st.subheader("📈 Comparación por Área de Conocimiento")
+
+            # Crear DataFrame para comparación
+            comparacion_data = []
+            for area in AREAS:
+                comparacion_data.append({
+                    'Área': area,
+                    '2024': datos_historicos['2024'][area],
+                    '2025': datos_historicos['2025'][area],
+                    'Avance': datos_historicos['Avance'][area],
+                    'Avance %': (datos_historicos['Avance'][area] / datos_historicos['2024'][area] * 100) if datos_historicos['2024'][area] != 0 else 0
+                })
+
+            df_comparacion = pd.DataFrame(comparacion_data)
+
+            # Gráfico de barras comparativo
+            col1, col2 = st.columns(2)
+
+            with col1:
+                st.markdown("### 📊 Comparación de Promedios")
+
+                fig = go.Figure()
+
+                fig.add_trace(go.Bar(
+                    name='2024',
+                    x=AREAS,
+                    y=[datos_historicos['2024'][area] for area in AREAS],
+                    marker_color='#ff7f0e',
+                    text=[f"{datos_historicos['2024'][area]:.1f}" for area in AREAS],
+                    textposition='outside'
+                ))
+
+                fig.add_trace(go.Bar(
+                    name='2025',
+                    x=AREAS,
+                    y=[datos_historicos['2025'][area] for area in AREAS],
+                    marker_color='#1f77b4',
+                    text=[f"{datos_historicos['2025'][area]:.1f}" for area in AREAS],
+                    textposition='outside'
+                ))
+
+                fig.update_layout(
+                    barmode='group',
+                    xaxis_title='Área',
+                    yaxis_title='Puntaje Promedio',
+                    yaxis=dict(range=[0, 100]),
+                    height=500,
+                    showlegend=True,
+                    legend=dict(
+                        orientation="h",
+                        yanchor="bottom",
+                        y=1.02,
+                        xanchor="right",
+                        x=1
+                    )
+                )
+
+                st.plotly_chart(fig, use_container_width=True)
+
+            with col2:
+                st.markdown("### 📉 Avance por Área")
+
+                # Crear gráfico de avance
+                colores_avance = ['#2ca02c' if x >= 0 else '#d62728' for x in df_comparacion['Avance']]
+
+                fig = go.Figure()
+
+                fig.add_trace(go.Bar(
+                    x=AREAS,
+                    y=df_comparacion['Avance'],
+                    marker_color=colores_avance,
+                    text=[f"{x:+.2f}" for x in df_comparacion['Avance']],
+                    textposition='outside'
+                ))
+
+                fig.add_hline(y=0, line_dash="dash", line_color="gray")
+
+                fig.update_layout(
+                    xaxis_title='Área',
+                    yaxis_title='Avance (puntos)',
+                    height=500,
+                    showlegend=False
+                )
+
+                st.plotly_chart(fig, use_container_width=True)
+
+            st.markdown("---")
+
+            # Tabla detallada
+            st.subheader("📋 Tabla Detallada de Comparación")
+
+            # Formatear tabla
+            df_tabla = df_comparacion.copy()
+            df_tabla['2024'] = df_tabla['2024'].apply(lambda x: f"{x:.2f}")
+            df_tabla['2025'] = df_tabla['2025'].apply(lambda x: f"{x:.2f}")
+            df_tabla['Avance'] = df_tabla['Avance'].apply(lambda x: f"{x:+.2f}")
+            df_tabla['Avance %'] = df_tabla['Avance %'].apply(lambda x: f"{x:+.2f}%")
+
+            st.dataframe(df_tabla, use_container_width=True, hide_index=True)
+
+            st.markdown("---")
+
+            # Análisis de tendencias
+            st.subheader("🔍 Análisis de Tendencias")
+
+            col1, col2 = st.columns(2)
+
+            with col1:
+                st.markdown("### ✅ Áreas con Mejor Desempeño")
+                areas_mejora = df_comparacion.nlargest(3, 'Avance')[['Área', 'Avance', 'Avance %']]
+
+                if areas_mejora['Avance'].iloc[0] > 0:
+                    for idx, row in areas_mejora.iterrows():
+                        st.success(f"**{row['Área']}**: {row['Avance']:+.2f} puntos ({row['Avance %']:+.2f}%)")
+                else:
+                    st.warning("No hay áreas con avance positivo")
+
+            with col2:
+                st.markdown("### ⚠️ Áreas que Requieren Atención")
+                areas_atencion = df_comparacion.nsmallest(3, 'Avance')[['Área', 'Avance', 'Avance %']]
+
+                for idx, row in areas_atencion.iterrows():
+                    if row['Avance'] < 0:
+                        st.error(f"**{row['Área']}**: {row['Avance']:+.2f} puntos ({row['Avance %']:+.2f}%)")
+                    else:
+                        st.info(f"**{row['Área']}**: {row['Avance']:+.2f} puntos ({row['Avance %']:+.2f}%)")
+
+            st.markdown("---")
+
+            # Recomendaciones
+            st.subheader("💡 Recomendaciones")
+
+            avance_promedio = df_comparacion['Avance'].mean()
+
+            if avance_promedio > 0:
+                st.success(f"""
+                **✅ Tendencia General Positiva**
+
+                El avance promedio es de **{avance_promedio:+.2f} puntos**. Se observa una mejora general en el desempeño.
+
+                **Recomendaciones:**
+                - Mantener las estrategias pedagógicas actuales
+                - Reforzar las áreas con menor avance
+                - Compartir buenas prácticas de las áreas con mayor mejora
+                """)
+            elif avance_promedio < 0:
+                st.warning(f"""
+                **⚠️ Tendencia General Negativa**
+
+                El avance promedio es de **{avance_promedio:+.2f} puntos**. Se observa una disminución en el desempeño.
+
+                **Recomendaciones:**
+                - Revisar las estrategias pedagógicas actuales
+                - Implementar planes de mejoramiento específicos por área
+                - Analizar factores externos que puedan estar afectando el rendimiento
+                - Considerar refuerzo académico en las áreas más afectadas
+                """)
+            else:
+                st.info("""
+                **➡️ Desempeño Estable**
+
+                El avance promedio es cercano a cero. El desempeño se mantiene estable.
+
+                **Recomendaciones:**
+                - Implementar estrategias de mejora continua
+                - Establecer metas de crecimiento para el próximo año
+                """)
+
+            # Botón de descarga
+            st.markdown("---")
+            csv_comparacion = df_comparacion.to_csv(index=False).encode('utf-8')
+            st.download_button(
+                label="📥 Descargar comparación (CSV)",
+                data=csv_comparacion,
+                file_name=f"comparacion_2024_2025_{datetime.now().strftime('%Y%m%d')}.csv",
+                mime="text/csv"
+            )
 
 if __name__ == "__main__":
     main()
