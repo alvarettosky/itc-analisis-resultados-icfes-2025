@@ -436,15 +436,15 @@ def main():
         col1, col2, col3, col4, col5 = st.columns(5)
 
         with col1:
-            st.metric("Promedio", f"{stats_area['Promedio']:.2f}")
+            st.metric("Promedio", f"{int(round(stats_area['Promedio']))}")
         with col2:
-            st.metric("Mediana", f"{stats_area['Mediana']:.2f}")
+            st.metric("Mediana", f"{int(round(stats_area['Mediana']))}")
         with col3:
             st.metric("Desv. Estándar", f"{stats_area['Desv. Estándar']:.2f}")
         with col4:
-            st.metric("Mínimo", f"{stats_area['Mínimo']:.2f}")
+            st.metric("Mínimo", f"{int(round(stats_area['Mínimo']))}")
         with col5:
-            st.metric("Máximo", f"{stats_area['Máximo']:.2f}")
+            st.metric("Máximo", f"{int(round(stats_area['Máximo']))}")
 
         st.markdown("---")
 
