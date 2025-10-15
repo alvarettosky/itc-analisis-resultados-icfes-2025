@@ -22,7 +22,7 @@ st.set_page_config(
     page_title="Análisis Resultados ICFES Saber 11 - 2025",
     page_icon="📊",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="collapsed"
 )
 
 # Estilos CSS personalizados
@@ -206,35 +206,7 @@ def main():
         st.error("No se pudieron cargar los datos. Verifica que el archivo Excel exista.")
         return
     
-    # Sidebar con información general
-    with st.sidebar:
-        st.image("https://via.placeholder.com/300x100/1f77b4/ffffff?text=ICFES+2025", use_container_width=True)
-        st.markdown("### 📋 Información General")
-        st.metric("Total de Estudiantes", len(df))
-        st.metric("Promedio Global", f"{int(round(df['Puntaje Global'].mean()))}")
-        st.metric("Puntaje Máximo", f"{int(round(df['Puntaje Global'].max()))}")
-        st.metric("Puntaje Mínimo", f"{int(round(df['Puntaje Global'].min()))}")
-        
-        st.markdown("---")
-        st.markdown("### 🎯 Navegación")
-        st.markdown("""
-        - **Vista General**: Resumen y estadísticas
-        - **Por Estudiante**: Análisis individual
-        - **Por Área**: Análisis por materia
-        - **Rankings**: Rankings generales y por área
-        - **Segmentación**: Clasificación por rangos
-        - **Comparación 2024-2025**: Avance entre años
-        """)
 
-        st.markdown("---")
-        st.markdown("### ⚠️ Nota Metodológica")
-        st.info("""
-        Las áreas del ICFES tienen escalas diferentes.
-        Esta aplicación NO compara áreas entre sí,
-        siguiendo las recomendaciones metodológicas
-        del ICFES Colombia.
-        """)
-    
     # Tabs principales
     tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs([
         "📊 Vista General",
