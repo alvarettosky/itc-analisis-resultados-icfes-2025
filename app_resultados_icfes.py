@@ -772,7 +772,7 @@ def main():
                 puntaje_2025 = datos_historicos['2025']['Puntaje Global']
                 st.metric(
                     "Puntaje Global 2025",
-                    f"{puntaje_2025:.1f}",
+                    f"{int(round(puntaje_2025))}",
                     help="Promedio del puntaje global en 2025"
                 )
 
@@ -780,7 +780,7 @@ def main():
                 puntaje_2024 = datos_historicos['2024']['Puntaje Global']
                 st.metric(
                     "Puntaje Global 2024",
-                    f"{puntaje_2024:.1f}",
+                    f"{int(round(puntaje_2024))}",
                     help="Promedio del puntaje global en 2024"
                 )
 
@@ -789,8 +789,8 @@ def main():
                 delta_color = "normal" if avance_global >= 0 else "inverse"
                 st.metric(
                     "Avance",
-                    f"{avance_global:.2f}",
-                    delta=f"{avance_global:.2f} puntos",
+                    f"{int(round(avance_global))}",
+                    delta=f"{int(round(avance_global))} puntos",
                     help="Diferencia entre 2025 y 2024"
                 )
 
@@ -825,7 +825,7 @@ def main():
                     x=AREAS,
                     y=[datos_historicos['2024'][area] for area in AREAS],
                     marker_color='#ff7f0e',
-                    text=[f"{datos_historicos['2024'][area]:.1f}" for area in AREAS],
+                    text=[f"{int(round(datos_historicos['2024'][area]))}" for area in AREAS],
                     textposition='outside'
                 ))
 
@@ -834,7 +834,7 @@ def main():
                     x=AREAS,
                     y=[datos_historicos['2025'][area] for area in AREAS],
                     marker_color='#1f77b4',
-                    text=[f"{datos_historicos['2025'][area]:.1f}" for area in AREAS],
+                    text=[f"{int(round(datos_historicos['2025'][area]))}" for area in AREAS],
                     textposition='outside'
                 ))
 
@@ -868,7 +868,7 @@ def main():
                     x=AREAS,
                     y=df_comparacion['Avance'],
                     marker_color=colores_avance,
-                    text=[f"{x:+.2f}" for x in df_comparacion['Avance']],
+                    text=[f"{int(round(x)):+d}" for x in df_comparacion['Avance']],
                     textposition='outside'
                 ))
 
@@ -890,9 +890,9 @@ def main():
 
             # Formatear tabla
             df_tabla = df_comparacion.copy()
-            df_tabla['2024'] = df_tabla['2024'].apply(lambda x: f"{x:.2f}")
-            df_tabla['2025'] = df_tabla['2025'].apply(lambda x: f"{x:.2f}")
-            df_tabla['Avance'] = df_tabla['Avance'].apply(lambda x: f"{x:+.2f}")
+            df_tabla['2024'] = df_tabla['2024'].apply(lambda x: f"{int(round(x))}")
+            df_tabla['2025'] = df_tabla['2025'].apply(lambda x: f"{int(round(x))}")
+            df_tabla['Avance'] = df_tabla['Avance'].apply(lambda x: f"{int(round(x)):+d}")
             df_tabla['Avance %'] = df_tabla['Avance %'].apply(lambda x: f"{x:+.2f}%")
 
             st.dataframe(df_tabla, use_container_width=True, hide_index=True)
@@ -910,7 +910,7 @@ def main():
 
                 if areas_mejora['Avance'].iloc[0] > 0:
                     for idx, row in areas_mejora.iterrows():
-                        st.success(f"**{row['Área']}**: {row['Avance']:+.2f} puntos ({row['Avance %']:+.2f}%)")
+                        st.success(f"**{row['Área']}**: {int(round(row['Avance'])):+d} puntos ({row['Avance %']:+.2f}%)")
                 else:
                     st.warning("No hay áreas con avance positivo")
 
@@ -920,9 +920,9 @@ def main():
 
                 for idx, row in areas_atencion.iterrows():
                     if row['Avance'] < 0:
-                        st.error(f"**{row['Área']}**: {row['Avance']:+.2f} puntos ({row['Avance %']:+.2f}%)")
+                        st.error(f"**{row['Área']}**: {int(round(row['Avance'])):+d} puntos ({row['Avance %']:+.2f}%)")
                     else:
-                        st.info(f"**{row['Área']}**: {row['Avance']:+.2f} puntos ({row['Avance %']:+.2f}%)")
+                        st.info(f"**{row['Área']}**: {int(round(row['Avance'])):+d} puntos ({row['Avance %']:+.2f}%)")
 
             st.markdown("---")
 
@@ -935,7 +935,7 @@ def main():
                 st.success(f"""
                 **✅ Tendencia General Positiva**
 
-                El avance promedio es de **{avance_promedio:+.2f} puntos**. Se observa una mejora general en el desempeño.
+                El avance promedio es de **{int(round(avance_promedio)):+d} puntos**. Se observa una mejora general en el desempeño.
 
                 **Recomendaciones:**
                 - Mantener las estrategias pedagógicas actuales
@@ -946,7 +946,7 @@ def main():
                 st.warning(f"""
                 **⚠️ Tendencia General Negativa**
 
-                El avance promedio es de **{avance_promedio:+.2f} puntos**. Se observa una disminución en el desempeño.
+                El avance promedio es de **{int(round(avance_promedio)):+d} puntos**. Se observa una disminución en el desempeño.
 
                 **Recomendaciones:**
                 - Revisar las estrategias pedagógicas actuales
