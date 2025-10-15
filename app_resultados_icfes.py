@@ -559,8 +559,8 @@ def main():
         with col1:
             st.subheader(f"🏆 Top 10 en {area_seleccionada}")
             top_10 = df.nlargest(10, area_seleccionada)[['Nombre Completo', area_seleccionada]].copy()
-            # Redondear puntajes a enteros
-            top_10[area_seleccionada] = top_10[area_seleccionada].round(0).astype(int)
+            # Redondear puntajes a enteros (manejar NaN)
+            top_10[area_seleccionada] = top_10[area_seleccionada].fillna(0).round(0).astype(int)
             top_10 = top_10.reset_index(drop=True)
             top_10.index = top_10.index + 1
             st.dataframe(top_10, use_container_width=True)
@@ -568,8 +568,8 @@ def main():
         with col2:
             st.subheader(f"📉 Estudiantes que Requieren Apoyo")
             bottom_10 = df.nsmallest(10, area_seleccionada)[['Nombre Completo', area_seleccionada]].copy()
-            # Redondear puntajes a enteros
-            bottom_10[area_seleccionada] = bottom_10[area_seleccionada].round(0).astype(int)
+            # Redondear puntajes a enteros (manejar NaN)
+            bottom_10[area_seleccionada] = bottom_10[area_seleccionada].fillna(0).round(0).astype(int)
             bottom_10 = bottom_10.reset_index(drop=True)
             bottom_10.index = bottom_10.index + 1
             st.dataframe(bottom_10, use_container_width=True)
@@ -598,9 +598,9 @@ def main():
         st.subheader("🥇 Ranking General por Puntaje Global")
 
         df_ranking = df[['Nombre Completo', 'Puntaje Global'] + AREAS].copy()
-        # Redondear puntajes a enteros
+        # Redondear puntajes a enteros (manejar NaN)
         for col in ['Puntaje Global'] + AREAS:
-            df_ranking[col] = df_ranking[col].round(0).astype(int)
+            df_ranking[col] = df_ranking[col].fillna(0).round(0).astype(int)
         df_ranking = df_ranking.sort_values('Puntaje Global', ascending=False).reset_index(drop=True)
         df_ranking.index = df_ranking.index + 1
         df_ranking.index.name = 'Posición'
@@ -625,8 +625,8 @@ def main():
         )
 
         df_area_ranking = df[['Nombre Completo', area_ranking]].copy()
-        # Redondear puntajes a enteros
-        df_area_ranking[area_ranking] = df_area_ranking[area_ranking].round(0).astype(int)
+        # Redondear puntajes a enteros (manejar NaN)
+        df_area_ranking[area_ranking] = df_area_ranking[area_ranking].fillna(0).round(0).astype(int)
         df_area_ranking = df_area_ranking.sort_values(area_ranking, ascending=False).reset_index(drop=True)
         df_area_ranking.index = df_area_ranking.index + 1
         df_area_ranking.index.name = 'Posición'
@@ -648,9 +648,9 @@ def main():
 
         percentil_90 = df['Puntaje Global'].quantile(0.90)
         destacados = df[df['Puntaje Global'] >= percentil_90][['Nombre Completo', 'Puntaje Global'] + AREAS].copy()
-        # Redondear puntajes a enteros
+        # Redondear puntajes a enteros (manejar NaN)
         for col in ['Puntaje Global'] + AREAS:
-            destacados[col] = destacados[col].round(0).astype(int)
+            destacados[col] = destacados[col].fillna(0).round(0).astype(int)
         destacados = destacados.sort_values('Puntaje Global', ascending=False).reset_index(drop=True)
         destacados.index = destacados.index + 1
 
@@ -697,9 +697,9 @@ def main():
 
         percentil_20 = df['Puntaje Global'].quantile(0.20)
         apoyo = df[df['Puntaje Global'] <= percentil_20][['Nombre Completo', 'Puntaje Global'] + AREAS].copy()
-        # Redondear puntajes a enteros
+        # Redondear puntajes a enteros (manejar NaN)
         for col in ['Puntaje Global'] + AREAS:
-            apoyo[col] = apoyo[col].round(0).astype(int)
+            apoyo[col] = apoyo[col].fillna(0).round(0).astype(int)
         apoyo = apoyo.sort_values('Puntaje Global').reset_index(drop=True)
         apoyo.index = apoyo.index + 1
 
@@ -748,9 +748,9 @@ def main():
         # Mostrar tabla
         columnas_mostrar = ['Nombre Completo', 'Puntaje Global'] + AREAS + ['Clasificación']
         df_mostrar = df_filtrado[columnas_mostrar].copy()
-        # Redondear puntajes a enteros
+        # Redondear puntajes a enteros (manejar NaN)
         for col in ['Puntaje Global'] + AREAS:
-            df_mostrar[col] = df_mostrar[col].round(0).astype(int)
+            df_mostrar[col] = df_mostrar[col].fillna(0).round(0).astype(int)
         df_mostrar = df_mostrar.sort_values('Puntaje Global', ascending=False).reset_index(drop=True)
         df_mostrar.index = df_mostrar.index + 1
 
