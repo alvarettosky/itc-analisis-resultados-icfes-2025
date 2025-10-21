@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """
 Punto de entrada para Streamlit Cloud
-Este archivo importa y ejecuta la aplicación principal desde app.py
+Este archivo ejecuta la aplicación principal desde app.py
 """
 
-# Importar y ejecutar la aplicación principal
-import app
+# Ejecutar el contenido de app.py
+with open('app.py', 'r', encoding='utf-8') as f:
+    exec(f.read())
 
